@@ -8,13 +8,18 @@ const cli = meow(
   Usage
     $ diff-package-lock [treeish] [treeish]
   Options
-    --directory, -d Directory to diff (defaults to cwd)
+    --directory, -d   Directory to diff (defaults to cwd)
+    --printed         Show printed dependencies a second time (default: true)
 `,
   {
     flags: {
       directory: {
         type: "string",
         alias: "d"
+      },
+      printed: {
+        type: "boolean",
+        default: true
       },
       help: {
         alias: "h"
@@ -40,7 +45,7 @@ if (args.length === 2) {
 async function go() {
   const [fromTree, toTree] = [tree1, tree2].map(t => new Tree(t, { cwd }));
   const packageChange = await fromTree.getPackageChange(toTree);
-  packageChange.print();
+  packageChange.print({ showPrinted: cli.flags.printed });
 }
 go().catch(e => {
   console.error(e);
