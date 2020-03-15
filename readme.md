@@ -9,3 +9,5 @@ diff-package-lock from-commit to-commit [directory]
 ```
 
 Use for more easier to read package-lock.json diffs
+
+![screenshot](./screenshot.png?raw=true)
