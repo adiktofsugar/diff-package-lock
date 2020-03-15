@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const _ = require("lodash");
+const fs = require("fs");
 const path = require("path");
 const meow = require("meow");
 const Tree = require("./lib/Tree");
@@ -6,17 +8,12 @@ const Tree = require("./lib/Tree");
 const cli = meow(
   `
   Usage
-    $ diff-package-lock [treeish] [treeish]
+    $ diff-package-lock [treeish] [treeish] [directory]
   Options
-    --directory, -d   Directory to diff (defaults to cwd)
     --printed         Show printed dependencies a second time (default: true)
 `,
   {
     flags: {
-      directory: {
-        type: "string",
-        alias: "d"
-      },
       printed: {
         type: "boolean",
         default: true
@@ -30,11 +27,18 @@ const cli = meow(
 const args = cli.input.slice();
 
 let cwd = process.cwd();
-if (cli.flags.directory) {
-  cwd = path.resolve(cwd, cli.flags.directory);
-}
 let tree1 = "head";
 let tree2 = "disk";
+
+// the last argument MIGHT be a directory
+const lastArg = _.last(args);
+if (lastArg) {
+  const possibleCwd = path.join(cwd, lastArg);
+  if (fs.existsSync(possibleCwd)) {
+    cwd = args.pop();
+  }
+}
+
 if (args.length === 2) {
   [tree1, tree2] = args;
 } else if (args.length === 1) {
