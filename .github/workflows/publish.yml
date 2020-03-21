@@ -18,6 +18,14 @@ jobs:
           node-versions: 10.x
       - run: npm ci
       - run: npx commitlint --from ${{ github.ref }}
-      - run: npx standard-version --prerelease betahooks
-      - run: git push --follow-tags origin ${{ github.ref }}
+      - name: Generate changelog, tag, and commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          npx standard-version --prerelease betahooks
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tags: true
       - run: npm publish
