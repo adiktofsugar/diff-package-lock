@@ -1,0 +1,19 @@
+---
+name: Publish npm package
+on:
+  push:
+    branches:
+      - master
+jobs:
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    if: contains(toJson(github.event.commits), '***NO_CI***') == false
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-versions: 10.x
+      - run: npm ci
+      - run: npx commitlint --from master
+      - run: npx standard-version --prerelease betahooks
