@@ -9,9 +9,9 @@ jobs:
     name: publish
     runs-on: ubuntu-latest
     # only publish on non-chore commit messages
-    if: 'contains(toJson(github.event.commits), "chore(release):") == false'
+    if: "contains(toJson(github.event.commits), 'chore(release):') == false"
     steps:
-      - run: 'echo "messages: ${{ toJson(github.event.commits.*.message) }}"'
+      - run: "echo 'messages: ${{ toJson(github.event.commits.*.message) }}'"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
