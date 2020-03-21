@@ -29,3 +29,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tags: true
       - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -6,6 +6,10 @@
   "bin": {
     "diff-package-lock": "index.js"
   },
+  "files": [
+    "index.js",
+    "lib"
+  ],
   "scripts": {
     "release": "standard-version",
     "test": "scripts/test.bash",
