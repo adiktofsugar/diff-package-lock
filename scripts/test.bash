@@ -1,5 +1,5 @@
-#!/bin/zsh
-root="${0:a:h:h}"
+#!/bin/bash
+root="$(cd `dirname "${BASH_SOURCE[0]}"`; cd ..; pwd)"
 
 function set_git {
   local from="$1"
@@ -14,13 +14,14 @@ function set_git {
 function test_example {
   local example_path="$root/examples/$1"
   shift
-  local args=("$@" "$example_path")
-  "$root/index.js" "${(@)args}"
+  local args="$@ $example_path"
+  "$root/index.js" $args
 }
 
-TRAPEXIT() {
+function onexit {
   set_git .git git
 }
+trap onexit EXIT
 
 set_git git .git
 test_example basic react-15 react-16
