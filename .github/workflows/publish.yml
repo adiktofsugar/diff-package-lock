@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     # only publish on non-chore commit messages
     if: "contains(toJson(github.event.commits), 'chore(release):') == false"
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - run: "echo 'messages: ${{ toJson(github.event.commits.*.message) }}'"
       - uses: actions/checkout@v2
@@ -29,5 +31,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tags: true
       - run: npm publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
