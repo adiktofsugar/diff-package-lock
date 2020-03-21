@@ -52,7 +52,7 @@ if (args.length === 2) {
   [tree1] = args;
 }
 
-console.log(`diff from ${tree1} to ${tree2} using cwd ${cwd}, exclude: ${JSON.stringify(cli.flags.exclude)}`);
+// console.log(`diff from ${tree1} to ${tree2} using cwd ${cwd}, exclude: ${JSON.stringify(cli.flags.exclude)}`);
 async function go() {
   const [fromTree, toTree] = [tree1, tree2].map(t => new Tree(t, { cwd }));
   const packageChange = await fromTree.getPackageChange(toTree);
