@@ -7,7 +7,7 @@
     "diff-package-lock": "index.js"
   },
   "scripts": {
-    "test": "scripts/test.zsh",
+    "test": "./scripts/test.zsh",
     "lint": "eslint index.js lib"
   },
   "keywords": [],
