@@ -11,12 +11,17 @@ const cli = meow(
     $ diff-package-lock [treeish] [treeish] [directory]
   Options
     --printed         Show printed dependencies a second time (default: true)
+    --exclude, -x     Exclude packages from highest found level. Repeat for more.
 `,
   {
     flags: {
       printed: {
         type: "boolean",
         default: true
+      },
+      exclude: {
+        type: "string",
+        alias: "x"
       },
       help: {
         alias: "h"
@@ -33,7 +38,9 @@ let tree2 = "disk";
 // the last argument MIGHT be a directory
 const lastArg = _.last(args);
 if (lastArg) {
-  const possibleCwd = path.join(cwd, lastArg);
+  const possibleCwd = path.isAbsolute(lastArg)
+    ? lastArg
+    : path.join(cwd, lastArg);
   if (fs.existsSync(possibleCwd)) {
     cwd = args.pop();
   }
@@ -45,11 +52,14 @@ if (args.length === 2) {
   [tree1] = args;
 }
 
-// console.log(`diff from ${tree1} to ${tree2} using cwd ${cwd}`);
+// console.log(`diff from ${tree1} to ${tree2} using cwd ${cwd}, exclude: ${JSON.stringify(cli.flags.exclude)}`);
 async function go() {
   const [fromTree, toTree] = [tree1, tree2].map(t => new Tree(t, { cwd }));
   const packageChange = await fromTree.getPackageChange(toTree);
-  packageChange.print({ showPrinted: cli.flags.printed });
+  packageChange.print({
+    exclude: cli.flags.exclude,
+    showPrinted: cli.flags.printed
+  });
 }
 go().catch(e => {
   console.error(e);

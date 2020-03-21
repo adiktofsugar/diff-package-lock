@@ -1,0 +1,7 @@
+{
+  "name": "some-app",
+  "version": "0.0.0",
+  "dependencies": {
+    "react": "16"
+  }
+}
