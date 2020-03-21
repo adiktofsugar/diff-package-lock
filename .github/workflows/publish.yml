@@ -1,0 +1,23 @@
+---
+name: Publish npm package
+on:
+  push:
+    branches:
+      - master
+jobs:
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    # only publish on non-chore commit messages
+    if: "contains(toJson(github.event.commits), 'chore(release):') == false"
+    steps:
+      - run: "echo 'messages: ${{ toJson(github.event.commits.*.message) }}'"
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-versions: 10.x
+      - run: npm ci
+      - run: npx commitlint --from ${{ github.ref }}
+      - run: npx standard-version --prerelease betahooks
+      - run: git push --follow-tags origin ${{ github.ref }}
+      - run: npm publish
