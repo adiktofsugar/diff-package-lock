@@ -6,11 +6,13 @@ jobs:
   test:
     name: test
     runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-versions: 10.x
+          node-version: 10.x
       - run: npm ci
       - run: npm run lint
       - run: npm test
