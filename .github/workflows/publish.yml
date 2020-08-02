@@ -31,6 +31,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tags: true
       # I can't put this in the actual .npmrc file because it stops normal npm install
-      - run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-      - run: npm publish
-      - run: rm .npmrc
+      - run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+          npm publish
+          rm .npmrc
