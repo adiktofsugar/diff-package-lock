@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.10 (2020-08-02)
+
+
+### Bug Fixes
+
+* make publish happen in one step ([c92f40a](https://github.com/adiktofsugar/diff-package-lock/commit/c92f40a5c80ab80fde95f2e440a70bf626eec3a2))
+
 ### 0.1.9 (2020-08-02)
 
 
