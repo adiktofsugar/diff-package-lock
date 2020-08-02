@@ -3,7 +3,7 @@ name: Publish npm package
 on:
   push:
     branches:
-      - master
+      - publish-action
 jobs:
   publish:
     name: publish
@@ -24,13 +24,13 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          npx standard-version
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tags: true
-      // I can't put this in the actual .npmrc file because it stops normal npm install
+          npx standard-version -p publish-action
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     tags: true
+      # I can't put this in the actual .npmrc file because it stops normal npm install
       - run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
       - run: npm publish
       - run: rm .npmrc
