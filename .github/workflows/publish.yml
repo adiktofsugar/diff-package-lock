@@ -11,7 +11,7 @@ jobs:
     # only publish on non-chore commit messages
     if: "contains(toJson(github.event.commits), 'chore(release):') == false"
     env:
-      NPM_CONFIG_REGISTRY: https://registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+      NPM_CONFIG_REGISTRY: http://registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
     steps:
       - run: "echo 'messages: ${{ toJson(github.event.commits.*.message) }}'"
       - uses: actions/checkout@v2
