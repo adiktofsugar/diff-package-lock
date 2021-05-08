@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.14 (2021-05-08)
+
+
+### Bug Fixes
+
+* remove comment from index ([6d0cd9f](https://github.com/adiktofsugar/diff-package-lock/commit/6d0cd9f7cc5ef02ad651c5502f572d6b9b0577fb))
+
 ### 0.1.13 (2021-05-08)
 
 ### 0.1.12 (2021-05-08)

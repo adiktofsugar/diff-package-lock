@@ -1,6 +1,6 @@
 {
   "name": "diff-package-lock",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Easier to read package-lock diff",
   "main": "index.js",
   "bin": {
