@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.15 (2021-05-23)
+
+
+### Features
+
+* remove a lot of dependencies to make download faster ([#17](https://github.com/adiktofsugar/diff-package-lock/issues/17)) ([8a112b0](https://github.com/adiktofsugar/diff-package-lock/commit/8a112b054117387bd62f82da9d1a9438836b1e4e))
+
 ### 0.1.14 (2021-05-08)
 
 
