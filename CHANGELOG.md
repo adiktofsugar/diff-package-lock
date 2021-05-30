@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.17 (2021-05-30)
+
+
+### Bug Fixes
+
+* add node engine ([9644dd1](https://github.com/adiktofsugar/diff-package-lock/commit/9644dd188766123f0d9544b7d03191f670e65866))
+
 ### 0.1.16 (2021-05-27)
 
 
