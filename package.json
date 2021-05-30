@@ -15,6 +15,9 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
+  "engines": {
+    "node": "8.6.x"
+  },
   "scripts": {
     "release": "standard-version",
     "test": "scripts/test.bash",
