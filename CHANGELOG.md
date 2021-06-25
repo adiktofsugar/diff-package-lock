@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.18 (2021-06-25)
+
+
+### Bug Fixes
+
+* add maxBuffer so I can parse huge package-lock.json files ([f0a0de2](https://github.com/adiktofsugar/diff-package-lock/commit/f0a0de20ab67e5f2e1303c10395255ba394664d6))
+
 ### 0.1.17 (2021-05-30)
 
 
