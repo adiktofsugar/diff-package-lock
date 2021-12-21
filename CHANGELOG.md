@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.23 (2021-12-21)
+
+
+### Bug Fixes
+
+* add support for npm shrinkwrap, add tests ([#26](https://github.com/adiktofsugar/diff-package-lock/issues/26)) ([7e215e9](https://github.com/adiktofsugar/diff-package-lock/commit/7e215e9ca0ccdb2ecf70b616c40ec67fed2dd614))
+
 ### 0.1.22 (2021-09-22)
 
 ### 0.1.21 (2021-08-27)
