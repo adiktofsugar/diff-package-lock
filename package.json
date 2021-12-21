@@ -1,6 +1,6 @@
 {
   "name": "diff-package-lock",
-  "version": "0.1.19",
+  "version": "0.1.23",
   "description": "Easier to read package-lock diff",
   "main": "index.js",
   "bin": {
@@ -16,11 +16,11 @@
     }
   },
   "engines": {
-    "node": "8.6.x"
+    "node": ">= 8.6.0"
   },
   "scripts": {
     "release": "standard-version",
-    "test": "scripts/test.bash",
+    "test": "npx jest && scripts/test.bash",
     "lint": "eslint index.js lib"
   },
   "keywords": [],
@@ -34,14 +34,16 @@
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.1",
     "eslint": "^6.8.0",
-    "eslint-plugin-prettier": "^3.1.4",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-watch": "^6.0.1",
     "husky": "^4.2.5",
     "jest": "^25.5.4",
+    "mock-fs": "^4.14.0",
     "prettier": "^1.19.1",
-    "standard-version": "^8.0.2"
+    "standard-version": "^8.0.2",
+    "string-argv": "^0.3.1"
   }
 }
