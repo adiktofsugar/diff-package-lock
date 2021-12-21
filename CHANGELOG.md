@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.24 (2021-12-21)
+
+
+### Bug Fixes
+
+* deal with nonexistent files while walking a directory ([#27](https://github.com/adiktofsugar/diff-package-lock/issues/27)) ([63c29e6](https://github.com/adiktofsugar/diff-package-lock/commit/63c29e633e2a999eb963026f012bb13983f92ea9))
+
 ### 0.1.23 (2021-12-21)
 
 
