@@ -4,12 +4,19 @@ const path = require("path");
 const Tree = require("./lib/Tree");
 
 const usage = `
-usage: diff-package-lock [-h|--help][-x|--exclude name][--printed]
+usage: diff-package-lock [-h|--help][-x|--exclude name][--printed][<from>][<to>][<path>]
 
 Options
   --help, -h        Show help
   --printed         Show printed dependencies a second time (default: true)
   --exclude, -x     Exclude packages from highest found level. Repeat for more.
+
+Arguments
+  from Commitish to start from (default "HEAD")
+  to   Commitish to end at (default "disk")
+  path Path to diff (default to cwd)
+      NOTE: this doesn't work like git diff and filter, it's specifiying the
+        root directory we read the package.json and package-lock.json files from
 `;
 
 // eslint-disable-next-line import/order
