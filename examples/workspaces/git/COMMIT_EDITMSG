@@ -1,9 +1,1 @@
-add fs-extra to "two"
-# Please enter the commit message for your changes. Lines starting
-# with '#' will be ignored, and an empty message aborts the commit.
-#
-# On branch master
-# Changes to be committed:
-#	modified:   package-lock.json
-#	modified:   packages/two/package.json
-#
+add fs-extra to two
