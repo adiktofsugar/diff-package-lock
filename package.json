@@ -1,6 +1,6 @@
 {
   "name": "diff-package-lock",
-  "version": "0.1.29",
+  "version": "0.1.30",
   "description": "Easier to read package-lock diff",
   "main": "index.js",
   "repository": "github:adiktofsugar/diff-package-lock",
