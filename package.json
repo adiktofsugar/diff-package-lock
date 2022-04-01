@@ -3,6 +3,7 @@
   "version": "0.1.29",
   "description": "Easier to read package-lock diff",
   "main": "index.js",
+  "repository": "github:adiktofsugar/diff-package-lock",
   "bin": {
     "diff-package-lock": "index.js"
   },
