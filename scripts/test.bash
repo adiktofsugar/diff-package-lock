@@ -60,5 +60,7 @@ test_example basic react-15 react-16
 test_example lerna react-15 react-16
 test_example lerna lodash-4.0 lodash-4.1
 test_example basic-v2 react-15 react-16
+test_example workspaces react-15-one react-16-one
+test_example workspaces express-two fs-extra-two
 
 print_results

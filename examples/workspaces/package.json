@@ -1,0 +1,10 @@
+{
+  "name": "workspaces",
+  "version": "1.0.0",
+  "workspaces": ["packages/*"],
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Sean McCollum <anincrediblyshortname@gmail.com>",
+  "license": "ISC"
+}
