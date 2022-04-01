@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 42d6173be48bd49cc8a4e694ecdb9ac4e38ea163 Sean McCollum <anincrediblyshortname@gmail.com> 1648660599 -0700	commit (initial): initial
+42d6173be48bd49cc8a4e694ecdb9ac4e38ea163 eda800c389db6174f6a6aba0ae3892c2d3da60c7 Sean McCollum <anincrediblyshortname@gmail.com> 1648660617 -0700	commit: add react@15
+eda800c389db6174f6a6aba0ae3892c2d3da60c7 42d6173be48bd49cc8a4e694ecdb9ac4e38ea163 Sean McCollum <anincrediblyshortname@gmail.com> 1648660637 -0700	reset: moving to head~1
+42d6173be48bd49cc8a4e694ecdb9ac4e38ea163 67098983c3a2d3e98c997940a70cc4570532fe09 Sean McCollum <anincrediblyshortname@gmail.com> 1648660645 -0700	commit: add react@15
+67098983c3a2d3e98c997940a70cc4570532fe09 ea05b0a446dc088cedaf82061fcab8402c38029f Sean McCollum <anincrediblyshortname@gmail.com> 1648660659 -0700	commit: add react@16

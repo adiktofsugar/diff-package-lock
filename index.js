@@ -17,8 +17,8 @@ const argv = require("minimist")(process.argv.slice(2), {
   boolean: ["help", "printed"],
   alias: {
     h: "help",
-    x: "exclude"
-  }
+    x: "exclude",
+  },
 });
 
 const args = argv._;
@@ -49,14 +49,14 @@ if (args.length === 2) {
 }
 
 async function go() {
-  const [fromTree, toTree] = [tree1, tree2].map(t => new Tree(t, { cwd }));
+  const [fromTree, toTree] = [tree1, tree2].map((t) => new Tree(t, { cwd }));
   const packageChange = await fromTree.getPackageChange(toTree);
   packageChange.print({
     exclude: argv.exclude,
-    showPrinted: argv.printed
+    showPrinted: argv.printed,
   });
 }
-go().catch(e => {
+go().catch((e) => {
   console.error(e);
   process.exit(1);
 });

@@ -10,40 +10,36 @@
     "index.js",
     "lib"
   ],
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "engines": {
     "node": ">= 8.6.0"
   },
   "scripts": {
     "release": "standard-version",
     "test": "npx jest && scripts/test.bash",
-    "lint": "eslint index.js lib"
+    "lint": "eslint index.js lib",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Sean McCollum <anincrediblyshortname@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "micromatch": "^4.0.4",
-    "minimist": "^1.2.5"
+    "micromatch": "^4.0.5",
+    "minimist": "^1.2.6"
   },
   "devDependencies": {
-    "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.1",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-watch": "^6.0.1",
-    "husky": "^4.2.5",
-    "jest": "^25.5.4",
-    "mock-fs": "^4.14.0",
-    "prettier": "^1.19.1",
-    "standard-version": "^8.0.2",
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "eslint": "^8.12.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-watch": "^8.0.0",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
+    "mock-fs": "^5.1.2",
+    "prettier": "^2.6.1",
+    "standard-version": "^9.3.2",
     "string-argv": "^0.3.1"
   }
 }
