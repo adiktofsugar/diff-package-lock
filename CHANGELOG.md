@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.29 (2022-04-01)
+
+
+### Features
+
+* support lockfile v2 ([#34](https://github.com/adiktofsugar/diff-package-lock/issues/34)) ([c9a02df](https://github.com/adiktofsugar/diff-package-lock/commit/c9a02df320e075e947d820cf2072fef4282852d6))
+
 ### 0.1.28 (2022-03-28)
 
 ### 0.1.27 (2022-03-27)
