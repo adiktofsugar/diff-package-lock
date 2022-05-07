@@ -35,7 +35,7 @@ if (argv.help) {
 }
 
 let cwd = process.cwd();
-let tree1 = "head";
+let tree1 = "HEAD";
 let tree2 = "disk";
 
 // the last argument MIGHT be a directory
