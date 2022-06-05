@@ -10,6 +10,7 @@ Options
   --help, -h        Show help
   --printed         Show printed dependencies a second time (default: true)
   --exclude, -x     Exclude packages from highest found level. Repeat for more.
+  --exit-code       Exit with exit code similar to diff (1 for changes, 0 for none)
 
 Arguments
   from Commitish to start from (default "HEAD")
@@ -21,7 +22,7 @@ Arguments
 
 // eslint-disable-next-line import/order
 const argv = require("minimist")(process.argv.slice(2), {
-  boolean: ["help", "printed"],
+  boolean: ["help", "printed", "exit-code"],
   alias: {
     h: "help",
     x: "exclude",
@@ -35,7 +36,7 @@ if (argv.help) {
 }
 
 let cwd = process.cwd();
-let tree1 = "head";
+let tree1 = "HEAD";
 let tree2 = "disk";
 
 // the last argument MIGHT be a directory
@@ -58,10 +59,13 @@ if (args.length === 2) {
 async function go() {
   const [fromTree, toTree] = [tree1, tree2].map((t) => new Tree(t, { cwd }));
   const packageChange = await fromTree.getPackageChange(toTree);
-  packageChange.print({
+  packageChange.printDependencyChanges({
     exclude: argv.exclude,
     showPrinted: argv.printed,
   });
+  if (packageChange.checkHasPrintableDependencyChanges() && argv["exit-code"]) {
+    process.exit(1);
+  }
 }
 go().catch((e) => {
   console.error(e);
