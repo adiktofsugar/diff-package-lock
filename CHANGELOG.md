@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.32 (2022-06-05)
+
+
+### Features
+
+* skip output when no change ([#37](https://github.com/adiktofsugar/diff-package-lock/issues/37)) ([5f65e51](https://github.com/adiktofsugar/diff-package-lock/commit/5f65e51911a655399efb60b0b7b40809c560ac91))
+
 ### 0.1.31 (2022-04-02)
 
 
