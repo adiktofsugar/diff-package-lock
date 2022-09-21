@@ -4,13 +4,14 @@ const path = require("path");
 const Tree = require("./lib/Tree");
 
 const usage = `
-usage: diff-package-lock [-h|--help][-x|--exclude name][--printed][<from>][<to>][<path>]
+usage: diff-package-lock [-h|--help][-x|--exclude name][--printed][--exit-code][--depth|-d depth] [<from>][<to>][<path>]
 
 Options
   --help, -h        Show help
   --printed         Show printed dependencies a second time (default: true)
   --exclude, -x     Exclude packages from highest found level. Repeat for more.
   --exit-code       Exit with exit code similar to diff (1 for changes, 0 for none)
+  --depth, -d       Specify depth of dependencies to print
 
 Arguments
   from Commitish to start from (default "HEAD")
@@ -26,6 +27,7 @@ const argv = require("minimist")(process.argv.slice(2), {
   alias: {
     h: "help",
     x: "exclude",
+    d: "depth",
   },
 });
 
@@ -60,6 +62,7 @@ async function go() {
   const [fromTree, toTree] = [tree1, tree2].map((t) => new Tree(t, { cwd }));
   const packageChange = await fromTree.getPackageChange(toTree);
   packageChange.printDependencyChanges({
+    maxDepth: argv.depth,
     exclude: argv.exclude,
     showPrinted: argv.printed,
   });

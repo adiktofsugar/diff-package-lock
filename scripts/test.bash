@@ -57,6 +57,7 @@ trap onexit EXIT
 
 set_git git .git
 test_example basic react-15 react-16
+test_example basic -d 2 react-15 react-16
 test_example lerna react-15 react-16
 test_example lerna lodash-4.0 lodash-4.1
 test_example basic-v2 react-15 react-16
