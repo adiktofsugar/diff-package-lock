@@ -11,7 +11,7 @@ Options
   --printed         Show printed dependencies a second time (default: true)
   --exclude, -x     Exclude packages from highest found level. Repeat for more.
   --exit-code       Exit with exit code similar to diff (1 for changes, 0 for none)
-  --depth, -d       Specify depth of dependencies to print
+  --depth, -d       Specify number of times to recurse into dependency trees
 
 Arguments
   from Commitish to start from (default "HEAD")
