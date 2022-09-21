@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.33 (2022-09-21)
+
+
+### Features
+
+* add depth argument ([#39](https://github.com/adiktofsugar/diff-package-lock/issues/39)) ([c182e9e](https://github.com/adiktofsugar/diff-package-lock/commit/c182e9e1f0e4d0eec7cb5b980b49d642fbeecd38))
+
 ### 0.1.32 (2022-06-05)
 
 
