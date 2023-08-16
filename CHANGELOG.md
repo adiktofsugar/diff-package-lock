@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.34 (2023-08-16)
+
+
+### Bug Fixes
+
+* workspace dependencies not found ([#42](https://github.com/adiktofsugar/diff-package-lock/issues/42)) ([8ec334a](https://github.com/adiktofsugar/diff-package-lock/commit/8ec334aaf6b507696d704691fa44399aa77ea28a))
+
 ### 0.1.33 (2022-09-21)
 
 
