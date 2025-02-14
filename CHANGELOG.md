@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/adiktofsugar/diff-package-lock/compare/v0.1.34...v1.0.0) (2025-02-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **remove-dep-analysis:** it no longer shows the dependency graph, which was a feature originally
+
+### Features
+
+* **remove-dep-analysis:** remove the dependency graph ([#44](https://github.com/adiktofsugar/diff-package-lock/issues/44)) ([d78883d](https://github.com/adiktofsugar/diff-package-lock/commit/d78883d9c48665237643f019aac0d8b523c27131))
+
 ### 0.1.34 (2023-08-16)
 
 
