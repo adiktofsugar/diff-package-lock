@@ -24,7 +24,6 @@
   "author": "Sean McCollum <anincrediblyshortname@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "micromatch": "^4.0.5",
     "minimist": "^1.2.6"
   },
   "devDependencies": {
