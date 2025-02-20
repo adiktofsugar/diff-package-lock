@@ -44,7 +44,7 @@ fixes=()
 while read commit_subject; do
   if [[ "$commit_subject" =~ ^([a-z]+?)(\(.+?\))?(!)?:\s*(.+) ]]; then
     level="${BASH_REMATCH[1]}"
-    scope="${BASH_REMATCH[2]}"
+    scope="${BASH_REMATCH[2]}" # note: still has parentheses
     excl="${BASH_REMATCH[3]}"
     message="${BASH_REMATCH[4]}"
     if [[ $excl ]]; then
