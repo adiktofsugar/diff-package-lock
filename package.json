@@ -7,18 +7,15 @@
   "bin": {
     "diff-package-lock": "index.js"
   },
-  "files": [
-    "index.js",
-    "lib"
-  ],
+  "files": ["index.js", "lib"],
   "engines": {
     "node": ">= 8.6.0"
   },
   "scripts": {
-    "release": "standard-version",
-    "test": "npx jest && scripts/test.bash",
-    "lint": "eslint index.js lib",
-    "prepare": "husky install"
+    "release": "./scripts/release.bash",
+    "test": "node --test && scripts/test.bash",
+    "lint": "biome check index.js lib",
+    "postinstall": "git config core.hooksPath .githooks"
   },
   "keywords": [],
   "author": "Sean McCollum <anincrediblyshortname@gmail.com>",
@@ -27,19 +24,11 @@
     "minimist": "^1.2.6"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.3",
-    "@commitlint/config-conventional": "^16.2.1",
-    "eslint": "^8.12.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-watch": "^8.0.0",
-    "husky": "^7.0.4",
-    "jest": "^27.5.1",
-    "mock-fs": "^5.1.2",
-    "prettier": "^2.6.1",
-    "standard-version": "^9.3.2",
-    "string-argv": "^0.3.1"
+    "@biomejs/biome": "^1.9.4",
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
+    "memfs": "^4.17.0",
+    "prettier": "^3.5.1",
+    "semver": "^7.7.1"
   }
 }

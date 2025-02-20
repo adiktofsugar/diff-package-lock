@@ -1,0 +1,24 @@
+{
+  // supported https://node.green/
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "style": {
+        // node: prefixes didn't exist in node v8, which I support for some reason
+        "useNodejsImportProtocol": "off"
+      },
+      "complexity": {
+        // optional chaining didn't exist until 14.18.3
+        "useOptionalChain": "off"
+      }
+    }
+  },
+  "organizeImports": {
+    "enabled": true
+  }
+}
