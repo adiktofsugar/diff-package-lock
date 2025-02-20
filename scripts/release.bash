@@ -42,13 +42,20 @@ feats=()
 fixes=()
 
 while read commit_subject; do
-  if [[ "$commit_subject" =~ ^(fix|feat)! ]]; then
-    is_breaking=true
-  fi
-  if [[ "$commit_subject" =~ ^feat ]]; then
-    feats+=("$commit_subject")
-  elif [[ "$commit_subject" =~ ^fix ]]; then
-    fixes+=("$commit_subject")
+  if [[ "$commit_subject" =~ ^([a-z]+?)(\(.+?\))?(!)?:\s*(.+) ]]; then
+    level="${BASH_REMATCH[1]}"
+    scope="${BASH_REMATCH[2]}"
+    excl="${BASH_REMATCH[3]}"
+    message="${BASH_REMATCH[4]}"
+    if [[ $excl ]]; then
+      is_breaking=true
+    fi
+    echo "-- detected level: $level, scope: $scope, breaking: $excl, message: $message"
+    if [[ "$level" == "feat" ]]; then
+      feats+=("$message")
+    elif [[ "$level" == "fix" ]]; then
+      fixes+=("$message")
+    fi
   fi
 done <<<"$(git log --pretty=format:"%s" HEAD ^"v$latest_version")"
 
@@ -78,7 +85,7 @@ if [[ ${#feats[@]} -gt 0 ]]; then
   done
   changelog_patch+="$newline"
 fi
-if [[ ${#feats[@]} -gt 0 ]]; then
+if [[ ${#fixes[@]} -gt 0 ]]; then
   changelog_patch+="### Fixes$newline$newline"
   for msg in "${fixes[@]}"; do
     changelog_patch+="* $msg$newline"
@@ -87,7 +94,7 @@ if [[ ${#feats[@]} -gt 0 ]]; then
 fi
 
 if [[ -n "$dry" ]]; then
-  echo "New Changelog: $changelog_patch"
+  echo "New Changelog: $newline===$newline$changelog_patch==="
   echo "Bump level: $bump"
   echo "Next version: $next"
 else
