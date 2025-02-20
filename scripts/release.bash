@@ -2,6 +2,8 @@
 set -eu
 set -o pipefail
 
+root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 dry=
 usage="
 release.bash [-h][-n]
@@ -33,32 +35,65 @@ if [[ -z "$latest_version" ]]; then
   exit 1
 fi
 
-bump_level=0
+changelog="$(cat "$root_dir/CHANGELOG.md")"
+
+is_breaking=
+feats=()
+fixes=()
+
 while read commit_subject; do
+  if [[ "$commit_subject" =~ ^(fix|feat)! ]]; then
+    is_breaking=true
+  fi
   if [[ "$commit_subject" =~ ^feat ]]; then
-    echo "-- feat version detected: $commit_subject"
-    bump_level=$(( 2 > $bump_level ? 2 : $bump_level ))
-    break
+    feats+=("$commit_subject")
   elif [[ "$commit_subject" =~ ^fix ]]; then
-    echo "-- fix version detected: $commit_subject"
-    bump_level=$(( 1 > $bump_level ? 1 : $bump_level ))
+    fixes+=("$commit_subject")
   fi
 done <<<"$(git log --pretty=format:"%s" HEAD ^"v$latest_version")"
 
-bumps=(none patch minor major)
-bump="${bumps[$bump_level]}"
-if [[ $bump = none ]]; then
+bump=
+if [[ "$is_breaking" ]]; then
+  bump="major"
+elif [[ "${#feats[@]}" -gt 0 ]]; then
+  bump="minor"
+elif [[ "${#fixes[@]}" -gt 0 ]]; then
+  bump="patch"
+fi
+if ! [[ $bump ]]; then
   echo "No changes detected since last tag"
   exit 0
 fi
 
 next="$(npx semver "$latest_version" -i $bump)"
+
+
+newline="
+"
+changelog_patch="## $next ($(date +%Y-%m-%d))$newline$newline"
+if [[ ${#feats[@]} -gt 0 ]]; then
+  changelog_patch+="### Features$newline$newline"
+  for msg in "${feats[@]}"; do
+    changelog_patch+="* $msg$newline"
+  done
+  changelog_patch+="$newline"
+fi
+if [[ ${#feats[@]} -gt 0 ]]; then
+  changelog_patch+="### Fixes$newline$newline"
+  for msg in "${fixes[@]}"; do
+    changelog_patch+="* $msg$newline"
+  done
+  changelog_patch+="$newline"
+fi
+
 if [[ -n "$dry" ]]; then
+  echo "New Changelog: $changelog_patch"
   echo "Bump level: $bump"
   echo "Next version: $next"
 else
-  echo "Implementation not complete">&2
-  exit 1
-  # git tag "v$next"
-  # git push origin "v$next"
+  echo "$changelog_patch$newline$newline$changelog" > "$root_dir/CHANGELOG.md"
+  # npm version command makes git tag and commit
+  npm version --no--git-tag-version "$next" 
+  git add "$root_dir"
+  git commit -m "chore(release): $next"
 fi

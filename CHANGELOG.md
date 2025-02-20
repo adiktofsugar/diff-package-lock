@@ -1,7 +1,3 @@
-# Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
 ## [1.0.0](https://github.com/adiktofsugar/diff-package-lock/compare/v0.1.34...v1.0.0) (2025-02-14)
 
 
@@ -190,7 +186,3 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 * reset changelog, remove beta tag ([50185e7](https://github.com/adiktofsugar/diff-package-lock/commit/50185e7d9e8997b0cf88b8b11d17ef90d2a73451))
-
-# Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
