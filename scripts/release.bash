@@ -88,7 +88,7 @@ current_version="$(npm view . version)"
 next_version="$(npx semver "$current_version" -i $bump)"
 newline="
 "
-changelog_patch="## $next_version ($(date +%Y-%m-%d))$newline$newline"
+changelog_patch="## [$next_version](https://github.com/adiktofsugar/diff-package-lock/compare/v$current_version...v$next_version) ($(date +%Y-%m-%d))$newline$newline"
 function add_changes() {
   local level="$1"
   local messages=("${@:2}")
@@ -101,13 +101,13 @@ function add_changes() {
   fi
 }
 if [[ ${#major_changes[@]} -gt 0 ]]; then
-  add_changes "Breaking" "${major_changes[@]}"
+  add_changes "⚠ BREAKING CHANGES" "${major_changes[@]}"
 fi
 if [[ ${#minor_changes[@]} -gt 0 ]]; then
   add_changes "Features" "${minor_changes[@]}"
 fi
 if [[ ${#patch_changes[@]} -gt 0 ]]; then
-  add_changes "Fixes" "${patch_changes[@]}"
+  add_changes "Bug Fixes" "${patch_changes[@]}"
 fi
 
 if [[ -n "$dry" ]]; then
@@ -117,7 +117,6 @@ if [[ -n "$dry" ]]; then
 else
   echo "$changelog_patch$newline$newline$changelog" > "$root_dir/CHANGELOG.md"
   # npm version command makes git tag and commit
-  npm version --no-git-tag-version "$next_version" 
   git add "$root_dir"
-  git commit -m "chore(release): $next_version"
+  npm version "$next_version" -m "chore(release): %s"
 fi
