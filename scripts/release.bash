@@ -88,7 +88,7 @@ current_version="$(npm view . version)"
 next_version="$(npx semver "$current_version" -i $bump)"
 newline="
 "
-changelog_patch="## [$next_version](https://github.com/adiktofsugar/diff-package-lock/compare/v$current_version...v$next_version) ($(date +%Y-%m-%d))$newline$newline"
+changelog_patch="## [$next_version](https://github.com/adiktofsugar/diff-package-lock/compare/v$current_version...v$next_version) ($(date +%Y-%m-%d))$newline$newline$newline"
 function add_changes() {
   local level="$1"
   local messages=("${@:2}")
@@ -115,7 +115,7 @@ if [[ -n "$dry" ]]; then
   echo "Bump level: $bump"
   echo "Next version: $next_version"
 else
-  echo "$changelog_patch$newline$newline$changelog" > "$root_dir/CHANGELOG.md"
+  echo "$changelog_patch$changelog" > "$root_dir/CHANGELOG.md"
   # we need to prevent npm from making the tag / commit because it requires the workspace to be clean
   npm version --no-git-tag-version "$next_version"
   git add "$root_dir"
