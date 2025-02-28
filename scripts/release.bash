@@ -116,7 +116,9 @@ if [[ -n "$dry" ]]; then
   echo "Next version: $next_version"
 else
   echo "$changelog_patch$newline$newline$changelog" > "$root_dir/CHANGELOG.md"
-  # npm version command makes git tag and commit
+  # we need to prevent npm from making the tag / commit because it requires the workspace to be clean
+  npm version --no-git-tag-version "$next_version"
   git add "$root_dir"
-  npm version "$next_version" -m "chore(release): %s"
+  git commit -m "chore(release): $next_version"
+  git tag "v$next_version"
 fi
