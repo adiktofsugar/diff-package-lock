@@ -12,7 +12,6 @@
     "node": ">= 8.6.0"
   },
   "scripts": {
-    "release": "./scripts/release.bash",
     "test": "node --test && scripts/test.bash",
     "lint": "biome check index.js lib",
     "postinstall": "git config core.hooksPath .githooks"
