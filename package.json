@@ -7,13 +7,16 @@
   "bin": {
     "diff-package-lock": "index.js"
   },
-  "files": ["index.js", "lib"],
+  "files": [
+    "index.js",
+    "lib"
+  ],
   "engines": {
     "node": ">= 8.6.0"
   },
   "scripts": {
-    "test": "node --test && scripts/test.bash",
-    "lint": "biome check index.js lib",
+    "test": "task test",
+    "lint": "task lint",
     "postinstall": "git config core.hooksPath .githooks"
   },
   "keywords": [],
@@ -26,6 +29,7 @@
     "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
+    "@go-task/cli": "^3.42.1",
     "memfs": "^4.17.0",
     "prettier": "^3.5.1",
     "semver": "^7.7.1"
