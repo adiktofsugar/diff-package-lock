@@ -19,7 +19,7 @@
     "build": "tsc -p src/tsconfig.json",
     "test": "npm run -s test:js && npm run -s test:bash",
     "test:js": "npx tsx --test --experimental-test-module-mocks",
-    "test:bash": "../scripts/test.bash",
+    "test:bash": "./scripts/test.bash",
     "lint": "task lint",
     "fix": "task fix",
     "postinstall": "git config core.hooksPath .githooks"
