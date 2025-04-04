@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import * as fs from 'fs';
-import * as path from 'path';
-import minimist from 'minimist';
-import Tree from './Tree';
-import type { ArgvOptions } from './interfaces';
+import * as fs from "fs";
+import * as path from "path";
+import minimist from "minimist";
+import Tree from "./Tree";
+import type { ArgvOptions } from "./interfaces";
 
 const usage = `
 usage: diff-package-lock [-h|--help][--exit-code] [<from>][<to>][<path>]
@@ -20,12 +20,11 @@ Arguments
         root directory we read the package-lock.json file from
 `;
 
-
 // eslint-disable-next-line import/order
 const argv = minimist<ArgvOptions>(process.argv.slice(2), {
-  boolean: ['help', 'exit-code'],
+  boolean: ["help", "exit-code"],
   alias: {
-    h: 'help',
+    h: "help",
   },
 });
 
@@ -36,8 +35,8 @@ if (argv.help) {
 }
 
 let cwd = process.cwd();
-let tree1 = 'HEAD';
-let tree2 = 'disk';
+let tree1 = "HEAD";
+let tree2 = "disk";
 
 // the last argument MIGHT be a directory
 const lastArg = args.length ? args[args.length - 1] : null;
@@ -62,7 +61,7 @@ async function go(): Promise<void> {
   for (const change of changes) {
     console.log(` - ${change.toString()}`);
   }
-  if (argv['exit-code'] && changes.length) {
+  if (argv["exit-code"] && changes.length) {
     process.exit(1);
   }
 }

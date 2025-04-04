@@ -1,5 +1,5 @@
-import colorize from './colorize';
-import type PackageDescriptor from './PackageDescriptor';
+import type PackageDescriptor from "./PackageDescriptor";
+import colorize from "./colorize";
 
 export class TreeChangeAdd {
   pkg: PackageDescriptor;
@@ -9,7 +9,7 @@ export class TreeChangeAdd {
   }
 
   toString(): string {
-    return colorize('green', `${this.pkg.key}@${this.pkg.version}`);
+    return colorize("green", `${this.pkg.key}@${this.pkg.version}`);
   }
 }
 
@@ -21,7 +21,7 @@ export class TreeChangeRemove {
   }
 
   toString(): string {
-    return colorize('red', `${this.pkg.key}@${this.pkg.version}`);
+    return colorize("red", `${this.pkg.key}@${this.pkg.version}`);
   }
 }
 
@@ -36,7 +36,7 @@ export class TreeChangeVersion {
 
   toString(): string {
     return colorize(
-      'yellow',
+      "yellow",
       `${this.pkg.key}@${this.pkg.version} -> ${this.toVersion}`,
     );
   }
@@ -52,8 +52,12 @@ export class TreeChangeKey {
   }
 
   toString(): string {
-    return colorize('yellow', `${this.pkg.key} -> ${this.toKey}`);
+    return colorize("yellow", `${this.pkg.key} -> ${this.toKey}`);
   }
 }
 
-export type TreeChange = TreeChangeAdd | TreeChangeRemove | TreeChangeVersion | TreeChangeKey;
+export type TreeChange =
+  | TreeChangeAdd
+  | TreeChangeRemove
+  | TreeChangeVersion
+  | TreeChangeKey;

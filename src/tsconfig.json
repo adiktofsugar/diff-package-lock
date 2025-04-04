@@ -6,13 +6,8 @@
     "outDir": "../dist",
     "esModuleInterop": true,
     "strict": true,
-    "types": [
-      "node8",
-      "minimist"
-    ],
-    "sourceMap": true,
+    "types": ["node8", "minimist"],
+    "sourceMap": true
   },
-  "exclude": [
-    "__test__/**"
-  ]
+  "exclude": ["__test__/**"]
 }

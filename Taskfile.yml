@@ -16,4 +16,4 @@ tasks:
       - "**/*.ts"
       - "!node_modules/**"
     cmds:
-      - biome check index.js lib{{if .fix}} --fix{{end}}
+      - biome check src{{if .fix}} --fix{{end}}

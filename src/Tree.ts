@@ -1,15 +1,20 @@
-import PackageChange from './PackageChange';
-import PackageDescriptor from './PackageDescriptor';
+import PackageChange from "./PackageChange";
+import PackageDescriptor from "./PackageDescriptor";
 import {
+  type TreeChange,
   TreeChangeAdd,
-  TreeChangeVersion,
   TreeChangeKey,
   TreeChangeRemove,
-  type TreeChange
-} from './TreeChange';
-import type { TreeOptions, PackageMap, LockFile, ErrorWithCode } from './interfaces';
-import { isErrorWithCode } from './typeGuards';
-import readGitFile from './readGitFile';
+  TreeChangeVersion,
+} from "./TreeChange";
+import type {
+  ErrorWithCode,
+  LockFile,
+  PackageMap,
+  TreeOptions,
+} from "./interfaces";
+import readGitFile from "./readGitFile";
+import { isErrorWithCode } from "./typeGuards";
 
 export default class Tree {
   treeish: string;
@@ -28,45 +33,53 @@ export default class Tree {
 
   async getLockFile(): Promise<LockFile> {
     const errors: Error[] = [];
-    for (const file of ['./package-lock.json', './npm-shrinkwrap.json']) {
+    for (const file of ["./package-lock.json", "./npm-shrinkwrap.json"]) {
       try {
         // eslint-disable-next-line no-await-in-loop
-        return await this.getJsonFile(file) as LockFile;
+        return (await this.getJsonFile(file)) as LockFile;
       } catch (e) {
-        if (isErrorWithCode(e) && e.code !== 'NOT_FOUND') throw e;
+        if (isErrorWithCode(e) && e.code !== "NOT_FOUND") throw e;
         errors.push(e as Error);
       }
     }
-    const error = new Error(errors.map((e) => e.message).join(', ')) as ErrorWithCode;
-    error.code = 'NOT_FOUND';
+    const error = new Error(
+      errors.map((e) => e.message).join(", "),
+    ) as ErrorWithCode;
+    error.code = "NOT_FOUND";
     throw error;
   }
 
   async getPackages(): Promise<PackageMap> {
     const lock = await this.getLockFile();
     const { lockfileVersion = 1 } = lock;
-    if (lockfileVersion === 1 && 'dependencies' in lock) {
-      return Object.entries(lock.dependencies).reduce<PackageMap>((acc, [key, spec]) => {
-        // in v1, the key is the name
-        acc[key] = new PackageDescriptor(key, key, spec.version);
-        return acc;
-      }, {});
+    if (lockfileVersion === 1 && "dependencies" in lock) {
+      return Object.entries(lock.dependencies).reduce<PackageMap>(
+        (acc, [key, spec]) => {
+          // in v1, the key is the name
+          acc[key] = new PackageDescriptor(key, key, spec.version);
+          return acc;
+        },
+        {},
+      );
     }
-    if ('packages' in lock) {
-      return Object.entries(lock.packages).reduce<PackageMap>((acc, [key, spec]) => {
-        const { version } = spec;
-        let name: string | undefined = spec.name;
-        if (!name) {
-          const nmIndex = key.lastIndexOf('node_modules/');
-          if (nmIndex !== -1) {
-            name = key.slice(nmIndex + 'node_modules/'.length);
+    if ("packages" in lock) {
+      return Object.entries(lock.packages).reduce<PackageMap>(
+        (acc, [key, spec]) => {
+          const { version } = spec;
+          let name: string | undefined = spec.name;
+          if (!name) {
+            const nmIndex = key.lastIndexOf("node_modules/");
+            if (nmIndex !== -1) {
+              name = key.slice(nmIndex + "node_modules/".length);
+            }
           }
-        }
-        if (name) {
-          acc[key] = new PackageDescriptor(key, name, version);
-        }
-        return acc;
-      }, {});
+          if (name) {
+            acc[key] = new PackageDescriptor(key, name, version);
+          }
+          return acc;
+        },
+        {},
+      );
     }
     return {};
   }

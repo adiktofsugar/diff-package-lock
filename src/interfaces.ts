@@ -1,7 +1,17 @@
-import type PackageDescriptor from './PackageDescriptor';
+import type PackageDescriptor from "./PackageDescriptor";
 
 // From colorize.ts
-export type AnsiColor = 'reset' | 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' | 'white' | 'gray';
+export type AnsiColor =
+  | "reset"
+  | "black"
+  | "red"
+  | "green"
+  | "yellow"
+  | "blue"
+  | "magenta"
+  | "cyan"
+  | "white"
+  | "gray";
 
 // From Tree.ts
 export interface TreeOptions {
@@ -43,7 +53,7 @@ export interface ErrorWithCode extends Error {
 export interface ArgvOptions {
   help: boolean;
   h: boolean;
-  'exit-code': boolean;
+  "exit-code": boolean;
   _: string[];
   [key: string]: unknown;
 }

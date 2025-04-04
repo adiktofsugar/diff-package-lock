@@ -1,13 +1,19 @@
-import execSync from "./execSync";
 import fs from "fs";
-import path from 'path';
+import path from "path";
+import execSync from "./execSync";
 import type { ErrorWithCode } from "./interfaces";
 
-export default function readGitFile(treeish: string, filepath: string, cwd: string): Buffer {
-  const error = new Error(`${treeish}:${filepath} does not exist`) as ErrorWithCode;
-  error.code = 'NOT_FOUND';
+export default function readGitFile(
+  treeish: string,
+  filepath: string,
+  cwd: string,
+): Buffer {
+  const error = new Error(
+    `${treeish}:${filepath} does not exist`,
+  ) as ErrorWithCode;
+  error.code = "NOT_FOUND";
 
-  if (treeish === 'disk') {
+  if (treeish === "disk") {
     const realpath = path.join(cwd, filepath);
     if (!fs.existsSync(realpath)) {
       throw error;
@@ -25,6 +31,6 @@ export default function readGitFile(treeish: string, filepath: string, cwd: stri
   }
   return execSync(`git show "${treeish}:${filepath}"`, {
     cwd,
-    encoding: 'buffer',
+    encoding: "buffer",
   }) as Buffer;
 }

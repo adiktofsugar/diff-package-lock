@@ -1,17 +1,25 @@
-import test, { mock, afterEach, describe } from 'node:test';
-import { createFsFromVolume, vol, Volume } from 'memfs';
+import test, { mock, afterEach, describe } from "node:test";
+import path from "path";
+import expect from "expect";
+import { Volume, createFsFromVolume, vol } from "memfs";
 import {
   TreeChangeAdd,
+  TreeChangeKey,
   TreeChangeRemove,
   TreeChangeVersion,
-  TreeChangeKey,
 } from "../TreeChange";
-import expect from 'expect';
-import type { ErrorWithCode, LockFile, LockFileV2Packages } from '../interfaces';
-import path from 'path';
+import type {
+  ErrorWithCode,
+  LockFile,
+  LockFileV2Packages,
+} from "../interfaces";
 
 let treeishToVol: Record<string, typeof vol> = {};
-function mockReadGitFile(treeish: string, filepath: string, cwd: string): Buffer {
+function mockReadGitFile(
+  treeish: string,
+  filepath: string,
+  cwd: string,
+): Buffer {
   const vol = treeishToVol[treeish];
   if (!vol) {
     throw new Error(`No volume for ${treeish}`);
@@ -19,18 +27,21 @@ function mockReadGitFile(treeish: string, filepath: string, cwd: string): Buffer
   const realpath = path.join(cwd, filepath);
   const fs = createFsFromVolume(vol);
   if (!fs.existsSync(realpath)) {
-    const error = new Error(`${treeish}:${filepath} does not exist`) as ErrorWithCode;
-    error.code = 'NOT_FOUND';
+    const error = new Error(
+      `${treeish}:${filepath} does not exist`,
+    ) as ErrorWithCode;
+    error.code = "NOT_FOUND";
     throw error;
   }
-  return fs.readFileSync(realpath, { encoding: 'buffer' }) as Buffer;
+  return fs.readFileSync(realpath, { encoding: "buffer" }) as Buffer;
 }
-mock.module(
-  "../readGitFile",
-  { defaultExport: mockReadGitFile },
-);
+mock.module("../readGitFile", { defaultExport: mockReadGitFile });
 
-function makeLockFileV2(name: string, version: string, packages: LockFileV2Packages) {
+function makeLockFileV2(
+  name: string,
+  version: string,
+  packages: LockFileV2Packages,
+) {
   return {
     name,
     version,
@@ -48,7 +59,7 @@ function makeLockFileV2(name: string, version: string, packages: LockFileV2Packa
 describe("Tree", async () => {
   const { default: Tree } = await import("../Tree");
   afterEach(() => {
-    vol.reset()
+    vol.reset();
   });
 
   describe("getJsonFile", () => {
@@ -57,8 +68,8 @@ describe("Tree", async () => {
       treeishToVol = {
         disk: Volume.fromJSON({
           "/repo/data.json": JSON.stringify(data),
-        })
-      }
+        }),
+      };
       const tree = new Tree("disk", { cwd: "/repo" });
       const retrieved = await tree.getJsonFile("./data.json");
       expect(retrieved).toEqual(data);
@@ -69,7 +80,7 @@ describe("Tree", async () => {
         abc123: Volume.fromJSON({
           "/repo/data.json": JSON.stringify(data),
         }),
-      }
+      };
       const tree = new Tree("abc123", { cwd: "/repo" });
       const retrieved = await tree.getJsonFile("./data.json");
       expect(retrieved).toEqual(data);
@@ -81,8 +92,8 @@ describe("Tree", async () => {
       treeishToVol = {
         disk: Volume.fromJSON({
           "/repo/package-lock.json": JSON.stringify(data),
-        })
-      }
+        }),
+      };
       const tree = new Tree("disk", { cwd: "/repo" });
       const retrieved = await tree.getLockFile();
       expect(retrieved).toEqual(data);
@@ -93,7 +104,7 @@ describe("Tree", async () => {
         disk: Volume.fromJSON({
           "/repo/npm-shrinkwrap.json": JSON.stringify(data),
         }),
-      }
+      };
       const tree = new Tree("disk", { cwd: "/repo" });
       const retrieved = await tree.getLockFile();
       expect(retrieved).toEqual(data);
@@ -106,7 +117,7 @@ describe("Tree", async () => {
           "/repo/package-lock.json": JSON.stringify(lock),
           "/repo/npm-shrinkwrap.json": JSON.stringify(shrink),
         }),
-      }
+      };
       const tree = new Tree("disk", { cwd: "/repo" });
       const retrieved = await tree.getLockFile();
       expect(retrieved).toEqual(lock);
@@ -119,7 +130,7 @@ describe("Tree", async () => {
           "/repoA/package-lock.json": JSON.stringify(lockA),
           "/repoB/package-lock.json": JSON.stringify(lockB),
         }),
-      }
+      };
       const treeA = new Tree("disk", { cwd: "/repoA" });
       const treeB = new Tree("disk", { cwd: "/repoB" });
       return treeA.getChanges(treeB);
@@ -187,7 +198,10 @@ describe("Tree", async () => {
           "node_modules/cool": { name: "cool", version: "1.0.0" },
         }),
         makeLockFileV2("awesome", "1.0.0", {
-          "node_modules/packages/a/node_modules/cool": { name: "cool", version: "1.0.0" },
+          "node_modules/packages/a/node_modules/cool": {
+            name: "cool",
+            version: "1.0.0",
+          },
         }),
       );
       expect(changes).toEqual([
