@@ -10,11 +10,15 @@
     "rules": {
       "style": {
         // node: prefixes didn't exist in node v8, which I support for some reason
-        "useNodejsImportProtocol": "off"
+        "useNodejsImportProtocol": "off",
       },
       "complexity": {
         // optional chaining didn't exist until 14.18.3
         "useOptionalChain": "off"
+      },
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error",
       }
     }
   },

@@ -3,15 +3,6 @@
 version: '3'
 
 tasks:
-  test:
-    desc: Run tests
-    sources:
-      - "**/*.js"
-      - "!node_modules/**"
-    cmds:
-      - node --test
-      - scripts/test.bash
-    silent: true
   fix:
     cmds:
       - task: lint
@@ -22,7 +13,7 @@ tasks:
     vars:
       fix: '{{ default "" .fix}}'
     sources:
-      - "**/*.js"
+      - "**/*.ts"
       - "!node_modules/**"
     cmds:
       - biome check index.js lib{{if .fix}} --fix{{end}}

@@ -1,4 +1,6 @@
-const ansiStyles = Object.entries({
+import type { AnsiColor } from './interfaces';
+
+const ansiStyles: Record<AnsiColor, string> = Object.entries({
   reset: 0,
   black: 30,
   red: 31,
@@ -10,13 +12,15 @@ const ansiStyles = Object.entries({
   white: 37,
   gray: 90,
 }).reduce((styles, [name, value]) => {
-  styles[name] = `\x1b[${value}m`;
+  styles[name as AnsiColor] = `\x1b[${value}m`;
   return styles;
-}, {});
-function colorize(color, message) {
+}, {} as Record<AnsiColor, string>);
+
+function colorize(color: AnsiColor, message: string): string {
   if (!ansiStyles[color]) {
     return message;
   }
   return `${ansiStyles[color]}${message}${ansiStyles.reset}`;
 }
-module.exports = colorize;
+
+export default colorize;

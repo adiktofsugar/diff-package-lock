@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "github:adiktofsugar/diff-package-lock",
   "bin": {
-    "diff-package-lock": "index.js"
+    "diff-package-lock": "dist/index.js"
   },
   "files": [
     "index.js",
@@ -15,8 +15,13 @@
     "node": ">= 8.6.0"
   },
   "scripts": {
-    "test": "task test",
+    "watch": "concurrently \"npm:build -- -w\" \"npm:test:js -- --watch\" \"npm:lint -- -w\"",
+    "build": "tsc -p src/tsconfig.json",
+    "test": "npm run -s test:js && npm run -s test:bash",
+    "test:js": "npx tsx --test --experimental-test-module-mocks",
+    "test:bash": "../scripts/test.bash",
     "lint": "task lint",
+    "fix": "task fix",
     "postinstall": "git config core.hooksPath .githooks"
   },
   "keywords": [],
@@ -30,8 +35,15 @@
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
     "@go-task/cli": "^3.42.1",
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^22.14.0",
+    "@types/node8": "npm:@types/node@^8.10.66",
+    "concurrently": "^9.1.2",
+    "expect": "^29.7.0",
     "memfs": "^4.17.0",
     "prettier": "^3.5.1",
-    "semver": "^7.7.1"
+    "semver": "^7.7.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
   }
 }

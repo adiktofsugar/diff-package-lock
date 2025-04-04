@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-const fs = require("fs");
-const path = require("path");
-const Tree = require("./lib/Tree");
+import * as fs from 'fs';
+import * as path from 'path';
+import minimist from 'minimist';
+import Tree from './Tree';
+import type { ArgvOptions } from './interfaces';
 
 const usage = `
 usage: diff-package-lock [-h|--help][--exit-code] [<from>][<to>][<path>]
@@ -18,23 +20,24 @@ Arguments
         root directory we read the package-lock.json file from
 `;
 
+
 // eslint-disable-next-line import/order
-const argv = require("minimist")(process.argv.slice(2), {
-  boolean: ["help", "exit-code"],
+const argv = minimist<ArgvOptions>(process.argv.slice(2), {
+  boolean: ['help', 'exit-code'],
   alias: {
-    h: "help",
+    h: 'help',
   },
 });
 
 const args = argv._;
 if (argv.help) {
   console.log(usage);
-  process.exit();
+  process.exit(0);
 }
 
 let cwd = process.cwd();
-let tree1 = "HEAD";
-let tree2 = "disk";
+let tree1 = 'HEAD';
+let tree2 = 'disk';
 
 // the last argument MIGHT be a directory
 const lastArg = args.length ? args[args.length - 1] : null;
@@ -43,7 +46,7 @@ if (lastArg) {
     ? lastArg
     : path.join(cwd, lastArg);
   if (fs.existsSync(possibleCwd)) {
-    cwd = args.pop();
+    cwd = args.pop() as string;
   }
 }
 
@@ -53,16 +56,17 @@ if (args.length === 2) {
   [tree1] = args;
 }
 
-async function go() {
+async function go(): Promise<void> {
   const [fromTree, toTree] = [tree1, tree2].map((t) => new Tree(t, { cwd }));
   const changes = await fromTree.getChanges(toTree);
   for (const change of changes) {
     console.log(` - ${change.toString()}`);
   }
-  if (argv["exit-code"] && changes.length) {
+  if (argv['exit-code'] && changes.length) {
     process.exit(1);
   }
 }
+
 go().catch((e) => {
   console.error(e);
   process.exit(1);

@@ -20,7 +20,7 @@ function test_example {
   local example_path="$root/examples/$example_name"
   local args="$@ $example_path"
   echo "testing example \"$1\" (diff-package-lock $args)"
-  "$root/index.js" $args
+  node "$root/dist/index.js" $args
   exit_code=$?
   example_names+=($example_name)
   example_codes+=($exit_code)
