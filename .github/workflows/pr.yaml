@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22.13.x
+          node-version-file: .nvmrc
       - run: npm ci
       - run: npm run lint
       - run: npm test
