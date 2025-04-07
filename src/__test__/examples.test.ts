@@ -2,9 +2,13 @@ import { afterEach, beforeEach, test } from "node:test";
 import path from "path";
 import expect from "expect";
 import Tree from "../Tree";
+import {
+  TreeChangeAdd,
+  TreeChangeRemove,
+  TreeChangeVersion,
+} from "../TreeChange";
 import runCommand from "../runCommand";
 import setupRamDisk, { type RamDiskResult } from "./setupRamDisk";
-import { TreeChangeAdd, TreeChangeRemove, TreeChangeVersion } from "../TreeChange";
 
 let ramdisk: RamDiskResult;
 let projectRoot: string;
@@ -49,11 +53,12 @@ test("basic repository: react-15 to react-16", async () => {
     "origin/react-16",
   );
   expect(changes).toEqual([
-    new TreeChangeVersion({
-      key: "react",
-      name: "react",
-      version: "15.6.2",
-    },
+    new TreeChangeVersion(
+      {
+        key: "react",
+        name: "react",
+        version: "15.6.2",
+      },
       "16.13.0",
     ),
     new TreeChangeRemove({
@@ -136,11 +141,12 @@ test("lerna repository: lodash-4.0 to lodash-4.1", async () => {
     "origin/lodash-4.1",
   );
   expect(changes).toEqual([
-    new TreeChangeVersion({
-      key: "lodash",
-      name: "lodash",
-      version: "4.0.1",
-    },
+    new TreeChangeVersion(
+      {
+        key: "lodash",
+        name: "lodash",
+        version: "4.0.1",
+      },
       "4.1.0",
     ),
   ]);

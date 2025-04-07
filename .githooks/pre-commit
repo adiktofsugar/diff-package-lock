@@ -6,4 +6,5 @@
 # it wants to stop the commit.
 #
 
+npm run lint
 npm test
