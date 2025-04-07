@@ -8,8 +8,7 @@
     "diff-package-lock": "dist/index.js"
   },
   "files": [
-    "index.js",
-    "lib"
+    "dist"
   ],
   "engines": {
     "node": ">= 8.6.0"
