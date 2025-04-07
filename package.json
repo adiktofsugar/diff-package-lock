@@ -17,8 +17,8 @@
     "watch": "concurrently \"npm:build -- -w\" \"npm:test:js -- --watch\" \"npm:lint -- -w\"",
     "build": "tsc -p src/tsconfig.json",
     "test": "npx tsx --test --test-only",
-    "lint": "task lint",
-    "fix": "task fix",
+    "lint": "biome check src",
+    "fix": "npm run lint -- --fix",
     "postinstall": "git config core.hooksPath .githooks"
   },
   "keywords": [],
@@ -31,7 +31,6 @@
     "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
-    "@go-task/cli": "^3.42.1",
     "@types/minimist": "^1.2.5",
     "@types/node": "^22.14.0",
     "@types/node8": "npm:@types/node@^8.10.66",
