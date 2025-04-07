@@ -16,7 +16,7 @@ jobs:
         with:
           node-version-file: .nvmrc
       - run: npm ci
-      - run: npm build
+      - run: npm run build
       - name: Generate changelog, tag, and commit
         run: |
           git config --local user.email "action@github.com"
