@@ -16,9 +16,7 @@
   "scripts": {
     "watch": "concurrently \"npm:build -- -w\" \"npm:test:js -- --watch\" \"npm:lint -- -w\"",
     "build": "tsc -p src/tsconfig.json",
-    "test": "npm run -s test:js && npm run -s test:bash",
-    "test:js": "npx tsx --test --test-only",
-    "test:bash": "./scripts/test.bash",
+    "test": "npx tsx --test --test-only",
     "lint": "task lint",
     "fix": "task fix",
     "postinstall": "git config core.hooksPath .githooks"

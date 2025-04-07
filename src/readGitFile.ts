@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import execSync from "./execSync";
 import type { ErrorWithCode } from "./interfaces";
+import runCommand from "./runCommand";
 
 export default function readGitFile(
   treeish: string,
@@ -20,17 +20,17 @@ export default function readGitFile(
     }
     return fs.readFileSync(realpath);
   }
-  const existingFiles = execSync(
-    `git ls-tree --name-only "${treeish}" -- "${filepath}"`,
+  const existingFiles = runCommand(
+    ["git", "ls-tree", "--name-only", treeish, "--", filepath],
     {
       cwd,
     },
-  ).toString();
+  ).stdout.toString();
   if (!existingFiles) {
     throw error;
   }
-  return execSync(`git show "${treeish}:${filepath}"`, {
+  return runCommand(["git", "show", `${treeish}:${filepath}`], {
     cwd,
     encoding: "buffer",
-  }) as Buffer;
+  }).stdout as Buffer;
 }

@@ -6,4 +6,4 @@
 # it wants to stop the commit.
 #
 
-npm run test:js
+npm test

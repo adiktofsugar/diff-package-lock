@@ -1,8 +1,8 @@
-import * as os from 'os';
-import * as path from 'path';
-import { execSync } from 'child_process';
-import * as fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
+import { execSync } from "child_process";
+import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * Information about the created RAM disk
@@ -18,7 +18,7 @@ export interface RamDiskResult {
  * Creates an in-memory filesystem for Linux
  */
 function setupLinuxRamDisk(uniqueName: string): RamDiskResult {
-  const dirPath = path.join('/dev/shm', uniqueName);
+  const dirPath = path.join("/dev/shm", uniqueName);
   fs.mkdirSync(dirPath, { recursive: true });
 
   return {
@@ -31,7 +31,7 @@ function setupLinuxRamDisk(uniqueName: string): RamDiskResult {
         console.error(`Failed to clean up directory at ${dirPath}:`, error);
         return false;
       }
-    }
+    },
   };
 }
 
@@ -42,7 +42,9 @@ function setupMacRamDisk(uniqueName: string): RamDiskResult {
   const sectors = 512 * 2048; // 512MB = 1048576 sectors
 
   try {
-    const devicePath = execSync(`hdiutil attach -nomount ram://${sectors}`).toString().trim();
+    const devicePath = execSync(`hdiutil attach -nomount ram://${sectors}`)
+      .toString()
+      .trim();
     execSync(`diskutil erasevolume HFS+ "${uniqueName}" ${devicePath}`);
     const mountPath = `/Volumes/${uniqueName}`;
 
@@ -56,10 +58,13 @@ function setupMacRamDisk(uniqueName: string): RamDiskResult {
           console.error(`Failed to clean up RAM disk at ${devicePath}:`, error);
           return false;
         }
-      }
+      },
     };
   } catch (e) {
-    console.error('Failed to create RAM disk on macOS, falling back to temporary directory.', e);
+    console.error(
+      "Failed to create RAM disk on macOS, falling back to temporary directory.",
+      e,
+    );
     return setupFallbackRamDisk(uniqueName);
   }
 }
@@ -78,10 +83,13 @@ function setupFallbackRamDisk(uniqueName: string): RamDiskResult {
         fs.rmSync(tmpPath, { recursive: true, force: true });
         return true;
       } catch (error) {
-        console.error(`Failed to clean up temp directory at ${tmpPath}:`, error);
+        console.error(
+          `Failed to clean up temp directory at ${tmpPath}:`,
+          error,
+        );
         return false;
       }
-    }
+    },
   };
 }
 
@@ -89,16 +97,17 @@ function setupFallbackRamDisk(uniqueName: string): RamDiskResult {
  * Creates an in-memory filesystem
  * Uses /dev/shm on Linux, RAM disk on macOS, and falls back to a temp directory on Windows
  * Does not require sudo permissions
- * 
+ *
  * @returns Object with path and cleanup function
  */
 export default function setupRamDisk(): RamDiskResult {
   const uniqueName = `ramdisk-${uuidv4().substring(0, 8)}`;
   const platform = os.platform();
 
-  if (platform === 'linux') {
+  if (platform === "linux") {
     return setupLinuxRamDisk(uniqueName);
-  } if (platform === 'darwin') {
+  }
+  if (platform === "darwin") {
     return setupMacRamDisk(uniqueName);
   }
   return setupFallbackRamDisk(uniqueName);

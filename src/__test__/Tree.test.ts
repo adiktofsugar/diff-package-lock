@@ -1,5 +1,6 @@
-import { test, afterEach, describe, beforeEach } from "node:test";
 import fs from "fs";
+import { afterEach, beforeEach, describe, test } from "node:test";
+import path from "path";
 import expect from "expect";
 import {
   TreeChangeAdd,
@@ -7,13 +8,9 @@ import {
   TreeChangeRemove,
   TreeChangeVersion,
 } from "../TreeChange";
-import type {
-  LockFile,
-  LockFileV2Packages,
-} from "../interfaces";
+import type { LockFile, LockFileV2Packages } from "../interfaces";
+import runCommand from "../runCommand";
 import setupRamDisk, { type RamDiskResult } from "./setupRamDisk";
-import path from "path";
-import { spawnSync, type SpawnSyncOptions, type SpawnSyncReturns } from "child_process";
 
 function makeLockFileV2(
   name: string,
@@ -37,14 +34,11 @@ function makeLockFileV2(
 let ramdisk: RamDiskResult;
 beforeEach(() => {
   ramdisk = setupRamDisk();
-  runCommand(
-    ["git", "init", "-b", "master"], { cwd: ramdisk.path }
-  );
+  runCommand(["git", "init", "-b", "master"], { cwd: ramdisk.path });
 });
 afterEach(() => {
   ramdisk?.cleanup();
 });
-
 
 function outputFileSync(filepath: string, data: string) {
   fs.mkdirSync(path.dirname(filepath), { recursive: true });
@@ -56,49 +50,6 @@ function outputFilesSync(basedir: string, files: Record<string, string>) {
   }
 }
 
-/**
- * A wrapper around spawnSync that provides more control over command execution
- * @param args Array of strings where the first element is the command and the rest are arguments
- * @param options Options for the spawned process
- * @returns The result of the command execution with standardized properties
- */
-function runCommand(
-  args: string[],
-  options: SpawnSyncOptions = {}
-): SpawnSyncReturns<Buffer> {
-  if (args.length === 0) {
-    throw new Error("Command array must not be empty");
-  }
-
-  const [command, ...commandArgs] = args;
-
-  const defaultOptions: SpawnSyncOptions = {
-    encoding: 'utf8',
-    stdio: 'pipe',
-    ...options
-  };
-
-  const result = spawnSync(command, commandArgs, defaultOptions);
-
-  if (result.error) {
-    throw result.error;
-  }
-
-  if (result.status !== 0) {
-    const stdout = result.stdout ? result.stdout.toString() : '';
-    const stderr = result.stderr ? result.stderr.toString() : '';
-    throw new Error(
-      [
-        `Command "${args.join(' ')}" failed with exit code ${result.status}`,
-        stdout,
-        stderr,
-      ].filter(Boolean).join('\n'));
-  }
-
-  return result;
-}
-
-
 describe("Tree", async () => {
   const { default: Tree } = await import("../Tree");
 
@@ -106,7 +57,7 @@ describe("Tree", async () => {
     test("disk", async () => {
       const data = { name: "awesome" };
       outputFilesSync(ramdisk.path, {
-        "data.json": JSON.stringify(data)
+        "data.json": JSON.stringify(data),
       });
       const tree = new Tree("disk", { cwd: ramdisk.path });
       const retrieved = await tree.getJsonFile("./data.json");
@@ -115,11 +66,13 @@ describe("Tree", async () => {
     test("tree", async () => {
       const data = { name: "awesome" };
       outputFilesSync(ramdisk.path, {
-        "data.json": JSON.stringify(data)
+        "data.json": JSON.stringify(data),
       });
-      runCommand(['git', 'checkout', '-b', 'abc123'], { cwd: ramdisk.path });
-      runCommand(['git', 'add', '.'], { cwd: ramdisk.path });
-      runCommand(['git', 'commit', '-m', 'Initial commit'], { cwd: ramdisk.path });
+      runCommand(["git", "checkout", "-b", "abc123"], { cwd: ramdisk.path });
+      runCommand(["git", "add", "."], { cwd: ramdisk.path });
+      runCommand(["git", "commit", "-m", "Initial commit"], {
+        cwd: ramdisk.path,
+      });
 
       const tree = new Tree("abc123", { cwd: ramdisk.path });
       const retrieved = await tree.getJsonFile("./data.json");
@@ -130,7 +83,7 @@ describe("Tree", async () => {
     test("only package-lock", async () => {
       const data = { name: "awesome" };
       outputFilesSync(ramdisk.path, {
-        "package-lock.json": JSON.stringify(data)
+        "package-lock.json": JSON.stringify(data),
       });
       const tree = new Tree("disk", { cwd: ramdisk.path });
       const retrieved = await tree.getLockFile();
@@ -139,7 +92,7 @@ describe("Tree", async () => {
     test("only npm-shrinkwrap", async () => {
       const data = { name: "awesome" };
       outputFilesSync(ramdisk.path, {
-        "npm-shrinkwrap.json": JSON.stringify(data)
+        "npm-shrinkwrap.json": JSON.stringify(data),
       });
       const tree = new Tree("disk", { cwd: ramdisk.path });
       const retrieved = await tree.getLockFile();
@@ -151,23 +104,30 @@ describe("Tree", async () => {
       outputFilesSync(ramdisk.path, {
         "package-lock.json": JSON.stringify(lock),
         "npm-shrinkwrap.json": JSON.stringify(shrink),
-      })
+      });
       const tree = new Tree("disk", { cwd: ramdisk.path });
       const retrieved = await tree.getLockFile();
       expect(retrieved).toEqual(lock);
     });
   });
   describe("getChanges", () => {
-
     async function getChanges(lockA: LockFile, lockB: LockFile) {
-      runCommand(['git', 'checkout', '-b', 'initial'], { cwd: ramdisk.path });
-      outputFileSync(path.join(ramdisk.path, 'package-lock.json'), JSON.stringify(lockA));
-      runCommand(['git', 'add', '.'], { cwd: ramdisk.path });
-      runCommand(['git', 'commit', '-m', 'initial'], { cwd: ramdisk.path });
+      runCommand(["git", "checkout", "-b", "initial"], { cwd: ramdisk.path });
+      outputFileSync(
+        path.join(ramdisk.path, "package-lock.json"),
+        JSON.stringify(lockA),
+      );
+      runCommand(["git", "add", "."], { cwd: ramdisk.path });
+      runCommand(["git", "commit", "-m", "initial"], { cwd: ramdisk.path });
 
-      runCommand(['git', 'checkout', '-b', 'change'], { cwd: ramdisk.path });
-      outputFileSync(path.join(ramdisk.path, 'package-lock.json'), JSON.stringify(lockB));
-      runCommand(['git', 'commit', '--allow-empty', '-am', 'change'], { cwd: ramdisk.path });
+      runCommand(["git", "checkout", "-b", "change"], { cwd: ramdisk.path });
+      outputFileSync(
+        path.join(ramdisk.path, "package-lock.json"),
+        JSON.stringify(lockB),
+      );
+      runCommand(["git", "commit", "--allow-empty", "-am", "change"], {
+        cwd: ramdisk.path,
+      });
       const treeA = new Tree("initial", { cwd: ramdisk.path });
       const treeB = new Tree("change", { cwd: ramdisk.path });
       return treeA.getChanges(treeB);
