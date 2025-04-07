@@ -4,22 +4,16 @@ root="$(cd `dirname "${BASH_SOURCE[0]}"`; cd ..; pwd)"
 declare -a example_names
 declare -a example_codes
 
-function set_git {
-  local from="$1"
-  local to="$2"
-  for example_name in `ls "$root/examples"`; do
-    dir="$root/examples/$example_name"
-    if [[ -e "$dir/$from" ]]; then
-      mv "$dir/$from" "$dir/$to"
-    fi
-  done
-}
+dirpath="$(mktemp -d)"
+
+
 function test_example {
   local example_name="$1"
   shift
-  local example_path="$root/examples/$example_name"
+  local example_path="$dirpath/$example_name"
   local args="$@ $example_path"
   echo "testing example \"$1\" (diff-package-lock $args)"
+  git clone "$root/repos/$example_name.git" "$example_path"
   node "$root/dist/index.js" $args
   exit_code=$?
   example_names+=($example_name)
@@ -51,14 +45,13 @@ function print_results {
 }
 
 function onexit {
-  set_git .git git
+  rm -rf "$dirpath"
 }
 trap onexit EXIT
 
-set_git git .git
-test_example basic react-15 react-16
-test_example lerna lodash-4.0 lodash-4.1
-test_example workspaces express-two fs-extra-two
-test_example no-change add-lodash add-new-file
+test_example basic origin/react-15 origin/react-16
+test_example lerna origin/lodash-4.0 origin/lodash-4.1
+test_example workspaces origin/express-two origin/fs-extra-two
+test_example no-change origin/add-lodash origin/add-new-file
 
 print_results

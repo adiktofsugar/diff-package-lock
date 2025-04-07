@@ -2,7 +2,7 @@
   "name": "diff-package-lock",
   "version": "1.0.0",
   "description": "Easier to read package-lock diff",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "github:adiktofsugar/diff-package-lock",
   "bin": {
     "diff-package-lock": "dist/index.js"
@@ -17,7 +17,7 @@
     "watch": "concurrently \"npm:build -- -w\" \"npm:test:js -- --watch\" \"npm:lint -- -w\"",
     "build": "tsc -p src/tsconfig.json",
     "test": "npm run -s test:js && npm run -s test:bash",
-    "test:js": "npx tsx --test --experimental-test-module-mocks",
+    "test:js": "npx tsx --test --test-only",
     "test:bash": "./scripts/test.bash",
     "lint": "task lint",
     "fix": "task fix",
@@ -42,7 +42,9 @@
     "memfs": "^4.17.0",
     "prettier": "^3.5.1",
     "semver": "^7.7.1",
+    "tmp": "^0.2.3",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "uuid": "^11.1.0"
   }
 }

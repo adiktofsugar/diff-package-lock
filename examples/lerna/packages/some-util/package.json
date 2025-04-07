@@ -1,7 +1,0 @@
-{
-  "name": "some-util",
-  "version": "0.0.0",
-  "dependencies": {
-    "lodash": "4.17.x"
-  }
-}
