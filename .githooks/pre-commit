@@ -6,5 +6,4 @@
 # it wants to stop the commit.
 #
 
-echo "Skipping tests for pre-commit hook"
-#npm test
+npm run test:js
