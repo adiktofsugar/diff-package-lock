@@ -35,6 +35,10 @@ let ramdisk: RamDiskResult;
 beforeEach(() => {
   ramdisk = setupRamDisk();
   runCommand(["git", "init", "-b", "master"], { cwd: ramdisk.path });
+  runCommand(["git", "config", "user.name", "Test"], { cwd: ramdisk.path });
+  runCommand(["git", "config", "user.email", "test@test.com"], {
+    cwd: ramdisk.path,
+  });
 });
 afterEach(() => {
   ramdisk?.cleanup();

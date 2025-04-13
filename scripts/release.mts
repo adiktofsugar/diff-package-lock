@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
-import parseArgs from 'minimist';
-import release, { CliError } from './lib/release.mjs';
+import parseArgs from "minimist";
+import release, { CliError } from "./lib/release.mjs";
 
 const usage = `
 release [-h][-n] [<ref>]
@@ -10,11 +10,11 @@ release [-h][-n] [<ref>]
 
 Release a new version based on changes since <ref>
 Exits with 2 if no changes detected
-`
+`;
 
 const args = parseArgs(process.argv.slice(2), {
-  boolean: ['help', 'dry-run'],
-  alias: { h: 'help', n: 'dry-run' },
+  boolean: ["help", "dry-run"],
+  alias: { h: "help", n: "dry-run" },
 });
 
 if (args.help) {
@@ -23,7 +23,7 @@ if (args.help) {
 }
 
 const [ref] = args._;
-const dry = !!args['dry-run'];
+const dry = !!args["dry-run"];
 
 try {
   release({ ref, dry, dirpath: process.cwd() });

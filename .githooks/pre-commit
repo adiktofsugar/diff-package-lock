@@ -7,4 +7,38 @@
 #
 
 npm run lint
-npm test
+
+# NOTE: not running test on commit because it runs real git commands that somehow get confused with
+#   what git directory they're supposed to be running in. For example, I get errors like this:
+# ====
+# test at scripts/lib/__test__/release.test.mts:8:223
+# ✖ basic (170.226041ms)
+#   Error: "git commit -m chore(release): 1.1.0" exited with code 1
+#   error: invalid object 100644 3c3629e647f5ddf82548912e337bea9826b434af for '.gitignore'
+#   error: invalid object 100644 3c3629e647f5ddf82548912e337bea9826b434af for '.gitignore'
+#   error: Error building trees
+  
+#       at runCommand (/home/sean/dev/diff-package-lock/scripts/lib/release.mts:153:11)
+#       at release (/home/sean/dev/diff-package-lock/scripts/lib/release.mts:139:3)
+#       at TestContext.<anonymous> (/home/sean/dev/diff-package-lock/scripts/lib/__test__/release.test.mts:54:9)
+#       at Test.runInAsyncScope (node:async_hooks:211:14)
+#       at Test.run (node:internal/test_runner/test:931:25)
+#       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+# =====
+# test at src/__test__/Tree.test.ts:2:5299
+# ✖ added (16.743599ms)
+#   Error: Command "git commit -m initial" failed with exit code 128
+#   fatal: Unable to create '/home/sean/dev/diff-package-lock/.git/index.lock.lock': File exists.
+  
+#   Another git process seems to be running in this repository, e.g.
+#   an editor opened by 'git commit'. Please make sure all processes
+#   are terminated then try again. If it still fails, a git process
+#   may have crashed in this repository earlier:
+#   remove the file manually to continue.
+  
+#       at runCommand (/home/sean/dev/diff-package-lock/src/runCommand.ts:42:11)
+#       at getChanges (/home/sean/dev/diff-package-lock/src/__test__/Tree.test.ts:125:7)
+#       at TestContext.<anonymous> (/home/sean/dev/diff-package-lock/src/__test__/Tree.test.ts:147:29)
+#       at Test.runInAsyncScope (node:async_hooks:211:14)
+#       at Test.run (node:internal/test_runner/test:931:25)
+#       at async Suite.processPendingSubtests (node:internal/test_runner/test:629:7)

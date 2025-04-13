@@ -17,7 +17,7 @@
     "watch": "concurrently \"npm:build -- -w\" \"npm:test:js -- --watch\" \"npm:lint -- -w\"",
     "build": "tsc -p src/tsconfig.json",
     "test": "TZ=America/Los_Angeles tsx --test",
-    "lint": "biome check src",
+    "lint": "biome check src scripts",
     "fix": "npm run lint -- --fix",
     "release": "tsx ./scripts/release.mts",
     "postinstall": "git config core.hooksPath .githooks"
