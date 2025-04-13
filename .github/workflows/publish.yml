@@ -10,27 +10,37 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-    # only publish on non-chore commit messages
-    if: "contains(toJson(github.event.commits), 'chore(release):') == false"
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version-file: .nvmrc
       - run: npm ci
-      - run: npx commitlint --from ${{ github.ref }}
+      - run: npm run build
+
       - name: Generate changelog, tag, and commit
+        id: create_release
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          npx standard-version
+          npm run -s release | tee out.txt
+          last_line="$(tail -n 1 out.txt)"
+          if [[ $last_line =~ Release (.+?) created ]]; then
+            echo "RELEASE_NEEDED=true" >> $GITHUB_OUTPUT
+            echo "RELEASE_VERSION=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          fi
+      # ideally I'd trigger another job or workflow, but then I'd lose the repo and build
       - name: Push changes
+        if: steps.create_release.outputs.RELEASE_NEEDED == 'true'
         uses: ad-m/github-push-action@master
         with:
+          # NOTE: because we're using GITHUB_TOKEN, we can't trigger a new workflow
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tags: true
       # I can't put this in the actual .npmrc file because it stops normal npm install
-      - run: |
+      - name: Publish to npm
+        if: steps.create_release.outputs.RELEASE_NEEDED == 'true'
+        run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
           npm publish
           rm .npmrc

@@ -1,9 +1,0 @@
-0000000000000000000000000000000000000000 3d2b95cb56ea4b5fd3bab53d48cd2ae013ab3c3f Sean McCollum <anincrediblyshortname@gmail.com> 1648831269 -0700	commit (initial): initial
-3d2b95cb56ea4b5fd3bab53d48cd2ae013ab3c3f e25d734aac2860ef4b6898466d7d4a04eae9410b Sean McCollum <anincrediblyshortname@gmail.com> 1648831309 -0700	commit: add react 15 to "one"
-e25d734aac2860ef4b6898466d7d4a04eae9410b db73e6a3a5fce79b50bd05ad205770f672615ecf Sean McCollum <anincrediblyshortname@gmail.com> 1648831349 -0700	commit: add express to "two"
-db73e6a3a5fce79b50bd05ad205770f672615ecf 715413aac14f5e597151246cf1ded917af404d2d Sean McCollum <anincrediblyshortname@gmail.com> 1648831373 -0700	commit: upgrade react to 16 in "one"
-715413aac14f5e597151246cf1ded917af404d2d 94cf582f6d0064769472364c6ad85872565ae998 Sean McCollum <anincrediblyshortname@gmail.com> 1648831420 -0700	commit: add fs-extra to "two"
-94cf582f6d0064769472364c6ad85872565ae998 e25d734aac2860ef4b6898466d7d4a04eae9410b Sean McCollum <anincrediblyshortname@gmail.com> 1648833004 -0700	reset: moving to e25d734aac2860ef4b6898466d7d4a04eae9410b
-e25d734aac2860ef4b6898466d7d4a04eae9410b 03a6d49b2f394d99afc82c088b9c0d7529e9e073 Sean McCollum <anincrediblyshortname@gmail.com> 1648833033 -0700	commit: add react 16 to one
-03a6d49b2f394d99afc82c088b9c0d7529e9e073 4d23dc43e031a7cca8c69a910b32e87ab8eb187d Sean McCollum <anincrediblyshortname@gmail.com> 1648833064 -0700	commit: add express to two
-4d23dc43e031a7cca8c69a910b32e87ab8eb187d d92bf690a027082fe52bc395a1459dd0b1b183b5 Sean McCollum <anincrediblyshortname@gmail.com> 1648833242 -0700	commit: add fs-extra to two

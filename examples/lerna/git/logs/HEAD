@@ -1,4 +1,0 @@
-0000000000000000000000000000000000000000 c48ce36e94de4dde37e30e6ab811cf7ec89c340b sean.mccollum <sean.mccollum@veeva.com> 1584398170 -0700	commit (initial): initial
-c48ce36e94de4dde37e30e6ab811cf7ec89c340b 65e77ec8884a13d3097828d5e81d096271017cda sean.mccollum <sean.mccollum@veeva.com> 1584398470 -0700	commit: with deps
-65e77ec8884a13d3097828d5e81d096271017cda 7997fc5be9a1cab51a57e814bb34b7670923631b sean.mccollum <sean.mccollum@veeva.com> 1584398492 -0700	commit: update lodash
-7997fc5be9a1cab51a57e814bb34b7670923631b 6ad78813cfaa9f546788bcc57b0fbc3ac7e50386 sean.mccollum <sean.mccollum@veeva.com> 1584398523 -0700	commit: update react
