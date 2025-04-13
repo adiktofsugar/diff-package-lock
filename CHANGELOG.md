@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/adiktofsugar/diff-package-lock/compare/v1.0.0...v1.0.1) (2025-4-13)
+
+
+### Bug Fixes
+* remove dev dependencies (#45) (bdf0f09)
+
+
 ## [1.0.0](https://github.com/adiktofsugar/diff-package-lock/compare/v0.1.34...v1.0.0) (2025-02-14)
 
 
