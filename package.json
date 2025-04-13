@@ -20,7 +20,7 @@
     "lint": "biome check src scripts",
     "fix": "npm run lint -- --fix",
     "release": "tsx ./scripts/release.mts",
-    "postinstall": "git config core.hooksPath .githooks"
+    "setup-hooks": "git config core.hooksPath .githooks"
   },
   "keywords": [],
   "author": "Sean McCollum <anincrediblyshortname@gmail.com>",
