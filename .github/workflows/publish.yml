@@ -21,7 +21,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          ./scripts/release.bash
+          npm run release
       # There doesn't seem to be a way to cancel if the previous step fails in a
       #   a certain way. You could optionally trigger a job but then it
       #   might be in a different workspace or something
