@@ -25,7 +25,8 @@ jobs:
           git config --local user.name "GitHub Action"
           npm run -s release | tee out.txt
           last_line="$(tail -n 1 out.txt)"
-          if [[ $last_line =~ Release (.+?) created ]]; then
+          pattern="Release (.+?) created"
+          if [[ $last_line =~ $pattern ]]; then
             echo "RELEASE_NEEDED=true" >> $GITHUB_OUTPUT
             echo "RELEASE_VERSION=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
           fi
