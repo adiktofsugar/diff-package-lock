@@ -17,22 +17,30 @@ jobs:
           node-version-file: .nvmrc
       - run: npm ci
       - run: npm run build
+
       - name: Generate changelog, tag, and commit
+        id: create_release
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          npm run release
-      # There doesn't seem to be a way to cancel if the previous step fails in a
-      #   a certain way. You could optionally trigger a job but then it
-      #   might be in a different workspace or something
+          npm run -s release | tee out.txt
+          last_line="$(tail -n 1 out.txt)"
+          if [[ $last_line =~ Release (.+?) created ]]; then
+            echo "RELEASE_NEEDED=true" >> $GITHUB_OUTPUT
+            echo "RELEASE_VERSION=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          fi
+      # ideally I'd trigger another job or workflow, but then I'd lose the repo and build
       - name: Push changes
+        if: steps.create_release.outputs.RELEASE_NEEDED == 'true'
         uses: ad-m/github-push-action@master
         with:
           # NOTE: because we're using GITHUB_TOKEN, we can't trigger a new workflow
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tags: true
       # I can't put this in the actual .npmrc file because it stops normal npm install
-      - run: |
+      - name: Publish to npm
+        if: steps.create_release.outputs.RELEASE_NEEDED == 'true'
+        run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
           npm publish
           rm .npmrc

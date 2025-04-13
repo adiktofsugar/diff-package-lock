@@ -27,7 +27,7 @@ export default function release({
     if (!latest) {
       throw new CliError('Could not determine last semver version');
     }
-    console.debug(`Latest version (semver sorted): ${latest}`);
+    debug(`Latest version (semver sorted): ${latest}`);
     ref = `v${latest}`
   }
   const logs = runCommand(['git', 'log', '--pretty=format:%h %s', 'HEAD', `^${ref}`], { cwd: dirpath }).split('\n');
@@ -40,7 +40,7 @@ export default function release({
       const [_, level, scopeRaw, excl, messageRaw] = match;
       const scope = scopeRaw ? scopeRaw.slice(1, -1) : undefined;
       const message = messageRaw.trim();
-      console.debug(`level: ${level}, scope: ${scope}, excl: ${excl}, message: ${message}`);
+      debug(`level: ${level}, scope: ${scope}, excl: ${excl}, message: ${message}`);
       let severity: 'major' | 'minor' | 'patch' | null = null;
       if (excl) {
         severity = 'major';
@@ -153,4 +153,8 @@ function findClosestPackageJson(dirpath: string) {
     current = path.dirname(current);
   }
   throw new Error(`Could not find package.json in ${dirpath} or any parent directory`);
+}
+
+function debug(...args: unknown[]) {
+  console.error('[debug]', ...args);
 }
