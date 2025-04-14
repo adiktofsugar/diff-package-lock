@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -eu
+set -o pipefail
+
+root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+dirpath="$(mktemp -d)"
+for repo_dirname in "$root_dir"/repos/*; do
+  repo_name="$(basename "$repo" .git)"
+  repo_dirpath="$dirpath/$repo_dirname"
+  git clone "$repo" "$repo_dirpath"
+done
+echo "All repositories cloned to $dirpath."

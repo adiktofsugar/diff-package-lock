@@ -31,11 +31,20 @@ export interface LockFileV1 {
   lockfileVersion?: number;
 }
 
+export interface LockFileV2PackageNormal {
+  name: string;
+  version: string;
+  resolved?: string;
+  integrity?: string;
+}
+
+export interface LockFileV2PackageLink {
+  link: true;
+  resolved: string;
+}
+
 export interface LockFileV2Packages {
-  [key: string]: {
-    name: string;
-    version: string;
-  };
+  [key: string]: LockFileV2PackageNormal | LockFileV2PackageLink;
 }
 
 export interface LockFileV2 {
