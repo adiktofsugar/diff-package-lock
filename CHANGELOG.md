@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/adiktofsugar/diff-package-lock/compare/v1.2.0...v1.3.0) (2025-4-14)
+
+
+### Features
+* change linked package display (#51) (4083e62)
+
+
 ## [1.2.0](https://github.com/adiktofsugar/diff-package-lock/compare/v1.1.0...v1.2.0) (2025-4-14)
 
 
