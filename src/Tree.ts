@@ -66,15 +66,25 @@ export default class Tree {
     if ("packages" in lock) {
       return Object.entries(lock.packages).reduce<PackageMap>(
         (acc, [key, spec]) => {
-          const { version } = spec;
-          let name: string | undefined = spec.name;
-          if (!name) {
+          let name: string | undefined = undefined;
+
+          // calculate name. this only gets the ones in node_modules, which excludes
+          //   the ones in the root and workspaces
+          if ("name" in spec) {
+            name = spec.name;
+          } else {
             const nmIndex = key.lastIndexOf("node_modules/");
             if (nmIndex !== -1) {
               name = key.slice(nmIndex + "node_modules/".length);
             }
           }
           if (name) {
+            let version = "(unknown version)";
+            if ("link" in spec) {
+              version = `link:${spec.resolved}`;
+            } else if (spec.version) {
+              version = spec.version;
+            }
             acc[key] = new PackageDescriptor(key, name, version);
           }
           return acc;

@@ -90,6 +90,17 @@ test("workspaces repository: express-two to fs-extra-two", async () => {
   ]);
 });
 
+test("workspaces repository: add new workspace", async () => {
+  const changes = await testExample(
+    "workspaces",
+    "origin/initial",
+    "origin/add-new-workspace",
+  );
+  expect(changes.map(stringifyTreeChange)).toEqual([
+    "+ node_modules/three@link:packages/three",
+  ]);
+});
+
 test("no-change repository: add-lodash to add-new-file", async () => {
   const changes = await testExample(
     "no-change",
