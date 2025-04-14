@@ -14,6 +14,7 @@ import type {
   TreeOptions,
 } from "./interfaces";
 import readGitFile from "./readGitFile";
+import sortChanges from "./sortChanges";
 import { isErrorWithCode } from "./typeGuards";
 
 export default class Tree {
@@ -151,6 +152,6 @@ export default class Tree {
         changes.push(new TreeChangeAdd(pkgAdded));
       }
     }
-    return changes;
+    return sortChanges(changes);
   }
 }

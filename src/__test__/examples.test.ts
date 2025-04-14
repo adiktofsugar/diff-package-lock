@@ -1,11 +1,10 @@
 import { afterEach, beforeEach, test } from "node:test";
 import path from "path";
 import expect from "expect";
-import stripAnsi from "strip-ansi";
 import Tree from "../Tree";
-import type { TreeChange } from "../TreeChange";
 import runCommand from "../runCommand";
 import setupRamDisk, { type RamDiskResult } from "./setupRamDisk";
+import stringifyTreeChange from "./utils/stringifyTreeChange";
 
 let ramdisk: RamDiskResult;
 let projectRoot: string;
@@ -50,7 +49,6 @@ test("basic repository: react-15 to react-16", async () => {
     "origin/react-16",
   );
   expect(changes.map(stringifyTreeChange)).toEqual([
-    "* react@15.6.2 -> 16.13.0",
     "- asap@2.0.6",
     "- core-js@1.2.7",
     "- create-react-class@15.6.3",
@@ -61,6 +59,7 @@ test("basic repository: react-15 to react-16", async () => {
     "- isomorphic-fetch@2.2.1",
     "- node-fetch@1.7.3",
     "- promise@7.3.1",
+    "* react@15.6.2 -> 16.13.0",
     "- safer-buffer@2.1.2",
     "- setimmediate@1.0.5",
     "- ua-parser-js@0.7.21",
@@ -99,7 +98,3 @@ test("no-change repository: add-lodash to add-new-file", async () => {
   );
   expect(changes.map(stringifyTreeChange)).toEqual([]);
 });
-
-function stringifyTreeChange(t: TreeChange) {
-  return stripAnsi(t.toString());
-}
