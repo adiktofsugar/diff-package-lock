@@ -1,3 +1,10 @@
+## [1.2.0](https://github.com/adiktofsugar/diff-package-lock/compare/v1.1.0...v1.2.0) (2025-4-14)
+
+
+### Features
+* add sorting by key (#50) (39ace4b)
+
+
 ## [1.1.0](https://github.com/adiktofsugar/diff-package-lock/compare/v1.0.2...v1.1.0) (2025-4-14)
 
 
