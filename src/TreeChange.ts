@@ -9,7 +9,7 @@ export class TreeChangeAdd {
   }
 
   toString(): string {
-    return colorize("green", `${this.pkg.key}@${this.pkg.version}`);
+    return colorize("green", `+ ${this.pkg.key}@${this.pkg.version}`);
   }
 }
 
@@ -21,7 +21,7 @@ export class TreeChangeRemove {
   }
 
   toString(): string {
-    return colorize("red", `${this.pkg.key}@${this.pkg.version}`);
+    return colorize("red", `- ${this.pkg.key}@${this.pkg.version}`);
   }
 }
 
@@ -37,7 +37,7 @@ export class TreeChangeVersion {
   toString(): string {
     return colorize(
       "yellow",
-      `${this.pkg.key}@${this.pkg.version} -> ${this.toVersion}`,
+      `* ${this.pkg.key}@${this.pkg.version} -> ${this.toVersion}`,
     );
   }
 }
@@ -52,7 +52,7 @@ export class TreeChangeKey {
   }
 
   toString(): string {
-    return colorize("yellow", `${this.pkg.key} -> ${this.toKey}`);
+    return colorize("yellow", `* ${this.pkg.key} -> ${this.toKey}`);
   }
 }
 
