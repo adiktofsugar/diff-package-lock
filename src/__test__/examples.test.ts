@@ -1,12 +1,9 @@
 import { afterEach, beforeEach, test } from "node:test";
 import path from "path";
 import expect from "expect";
+import stripAnsi from "strip-ansi";
 import Tree from "../Tree";
-import {
-  TreeChangeAdd,
-  TreeChangeRemove,
-  TreeChangeVersion,
-} from "../TreeChange";
+import type { TreeChange } from "../TreeChange";
 import runCommand from "../runCommand";
 import setupRamDisk, { type RamDiskResult } from "./setupRamDisk";
 
@@ -52,85 +49,22 @@ test("basic repository: react-15 to react-16", async () => {
     "origin/react-15",
     "origin/react-16",
   );
-  expect(changes).toEqual([
-    new TreeChangeVersion(
-      {
-        key: "react",
-        name: "react",
-        version: "15.6.2",
-      },
-      "16.13.0",
-    ),
-    new TreeChangeRemove({
-      key: "asap",
-      name: "asap",
-      version: "2.0.6",
-    }),
-    new TreeChangeRemove({
-      key: "core-js",
-      name: "core-js",
-      version: "1.2.7",
-    }),
-    new TreeChangeRemove({
-      key: "create-react-class",
-      name: "create-react-class",
-      version: "15.6.3",
-    }),
-    new TreeChangeRemove({
-      key: "encoding",
-      name: "encoding",
-      version: "0.1.12",
-    }),
-    new TreeChangeRemove({
-      key: "fbjs",
-      name: "fbjs",
-      version: "0.8.17",
-    }),
-    new TreeChangeRemove({
-      key: "iconv-lite",
-      name: "iconv-lite",
-      version: "0.4.24",
-    }),
-    new TreeChangeRemove({
-      key: "is-stream",
-      name: "is-stream",
-      version: "1.1.0",
-    }),
-    new TreeChangeRemove({
-      key: "isomorphic-fetch",
-      name: "isomorphic-fetch",
-      version: "2.2.1",
-    }),
-    new TreeChangeRemove({
-      key: "node-fetch",
-      name: "node-fetch",
-      version: "1.7.3",
-    }),
-    new TreeChangeRemove({
-      key: "promise",
-      name: "promise",
-      version: "7.3.1",
-    }),
-    new TreeChangeRemove({
-      key: "safer-buffer",
-      name: "safer-buffer",
-      version: "2.1.2",
-    }),
-    new TreeChangeRemove({
-      key: "setimmediate",
-      name: "setimmediate",
-      version: "1.0.5",
-    }),
-    new TreeChangeRemove({
-      key: "ua-parser-js",
-      name: "ua-parser-js",
-      version: "0.7.21",
-    }),
-    new TreeChangeRemove({
-      key: "whatwg-fetch",
-      name: "whatwg-fetch",
-      version: "3.0.0",
-    }),
+  expect(changes.map(stringifyTreeChange)).toEqual([
+    "* react@15.6.2 -> 16.13.0",
+    "- asap@2.0.6",
+    "- core-js@1.2.7",
+    "- create-react-class@15.6.3",
+    "- encoding@0.1.12",
+    "- fbjs@0.8.17",
+    "- iconv-lite@0.4.24",
+    "- is-stream@1.1.0",
+    "- isomorphic-fetch@2.2.1",
+    "- node-fetch@1.7.3",
+    "- promise@7.3.1",
+    "- safer-buffer@2.1.2",
+    "- setimmediate@1.0.5",
+    "- ua-parser-js@0.7.21",
+    "- whatwg-fetch@3.0.0",
   ]);
 });
 
@@ -140,16 +74,7 @@ test("lerna repository: lodash-4.0 to lodash-4.1", async () => {
     "origin/lodash-4.0",
     "origin/lodash-4.1",
   );
-  expect(changes).toEqual([
-    new TreeChangeVersion(
-      {
-        key: "lodash",
-        name: "lodash",
-        version: "4.0.1",
-      },
-      "4.1.0",
-    ),
-  ]);
+  expect(changes.map(stringifyTreeChange)).toEqual(["* lodash@4.0.1 -> 4.1.0"]);
 });
 
 test("workspaces repository: express-two to fs-extra-two", async () => {
@@ -158,27 +83,11 @@ test("workspaces repository: express-two to fs-extra-two", async () => {
     "origin/express-two",
     "origin/fs-extra-two",
   );
-  expect(changes).toEqual([
-    new TreeChangeAdd({
-      key: "node_modules/fs-extra",
-      name: "fs-extra",
-      version: "10.0.1",
-    }),
-    new TreeChangeAdd({
-      key: "node_modules/graceful-fs",
-      name: "graceful-fs",
-      version: "4.2.9",
-    }),
-    new TreeChangeAdd({
-      key: "node_modules/jsonfile",
-      name: "jsonfile",
-      version: "6.1.0",
-    }),
-    new TreeChangeAdd({
-      key: "node_modules/universalify",
-      name: "universalify",
-      version: "2.0.0",
-    }),
+  expect(changes.map(stringifyTreeChange)).toEqual([
+    "+ node_modules/fs-extra@10.0.1",
+    "+ node_modules/graceful-fs@4.2.9",
+    "+ node_modules/jsonfile@6.1.0",
+    "+ node_modules/universalify@2.0.0",
   ]);
 });
 
@@ -188,5 +97,9 @@ test("no-change repository: add-lodash to add-new-file", async () => {
     "origin/add-lodash",
     "origin/add-new-file",
   );
-  expect(changes).toEqual([]);
+  expect(changes.map(stringifyTreeChange)).toEqual([]);
 });
+
+function stringifyTreeChange(t: TreeChange) {
+  return stripAnsi(t.toString());
+}

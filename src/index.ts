@@ -59,7 +59,7 @@ async function go(): Promise<void> {
   const [fromTree, toTree] = [tree1, tree2].map((t) => new Tree(t, { cwd }));
   const changes = await fromTree.getChanges(toTree);
   for (const change of changes) {
-    console.log(` - ${change.toString()}`);
+    console.log(change.toString());
   }
   if (argv["exit-code"] && changes.length) {
     process.exit(1);
