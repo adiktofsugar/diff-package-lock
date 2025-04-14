@@ -4,10 +4,10 @@ set -o pipefail
 
 root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-dirpath="$(mktemp -d)"
+tmpdirpath="$(mktemp -d)"
 for repo_dirname in "$root_dir"/repos/*; do
-  repo_name="$(basename "$repo" .git)"
-  repo_dirpath="$dirpath/$repo_dirname"
-  git clone "$repo" "$repo_dirpath"
+  repo_name="$(basename "$repo_dirname" .git)"
+  repo_dirpath="$tmpdirpath/$repo_name"
+  git clone "$repo_dirname" "$repo_dirpath"
 done
-echo "All repositories cloned to $dirpath."
+echo "All repositories cloned to $tmpdirpath."
