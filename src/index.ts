@@ -6,11 +6,12 @@ import Tree from "./Tree";
 import type { ArgvOptions } from "./interfaces";
 
 const usage = `
-usage: diff-package-lock [-h|--help][--exit-code] [<from>][<to>][<path>]
+usage: diff-package-lock [-h|--help][--exit-code][--json] [<from>][<to>][<path>]
 
 Options
   --help, -h        Show help
   --exit-code       Exit with exit code similar to diff (1 for changes, 0 for none)
+  --json            Output changes in JSON format
 
 Arguments
   from Commitish to start from (default "HEAD")
@@ -22,7 +23,7 @@ Arguments
 
 // eslint-disable-next-line import/order
 const argv = minimist<ArgvOptions>(process.argv.slice(2), {
-  boolean: ["help", "exit-code"],
+  boolean: ["help", "exit-code", "json"],
   alias: {
     h: "help",
   },
@@ -58,9 +59,15 @@ if (args.length === 2) {
 async function go(): Promise<void> {
   const [fromTree, toTree] = [tree1, tree2].map((t) => new Tree(t, { cwd }));
   const changes = await fromTree.getChanges(toTree);
+
   for (const change of changes) {
-    console.log(change.toString());
+    if (argv.json) {
+      console.log(change.toJSON());
+    } else {
+      console.log(change.toString());
+    }
   }
+
   if (argv["exit-code"] && changes.length) {
     process.exit(1);
   }

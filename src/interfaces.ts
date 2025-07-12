@@ -63,6 +63,7 @@ export interface ArgvOptions {
   help: boolean;
   h: boolean;
   "exit-code": boolean;
+  json: boolean;
   _: string[];
   [key: string]: unknown;
 }
