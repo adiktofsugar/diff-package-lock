@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/adiktofsugar/diff-package-lock/compare/v1.4.0...v1.4.1) (2025-7-12)
+
+
+### Bug Fixes
+* need to output valid json (ee030e6)
+
+
 ## [1.4.0](https://github.com/adiktofsugar/diff-package-lock/compare/v1.3.0...v1.4.0) (2025-7-12)
 
 
