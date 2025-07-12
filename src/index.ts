@@ -62,7 +62,7 @@ async function go(): Promise<void> {
 
   for (const change of changes) {
     if (argv.json) {
-      console.log(change.toJSON());
+      console.log(JSON.stringify(change.toJSON()));
     } else {
       console.log(change.toString());
     }
