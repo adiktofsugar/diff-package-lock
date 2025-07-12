@@ -1,3 +1,10 @@
+## [1.4.0](https://github.com/adiktofsugar/diff-package-lock/compare/v1.3.0...v1.4.0) (2025-7-12)
+
+
+### Features
+* add json output (#55) (0b33078)
+
+
 ## [1.3.0](https://github.com/adiktofsugar/diff-package-lock/compare/v1.2.0...v1.3.0) (2025-4-14)
 
 
